@@ -5,7 +5,7 @@ CREATE TABLE accounts (
   name text,
   email text, 
   password text,
-  DOB date
+  dob date
 );
 
 DROP TABLE IF EXISTS spaces;
