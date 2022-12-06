@@ -34,8 +34,14 @@ RSpec.describe AccountRepository do
       expect(accounts.last.dob).to eq '1995-09-23'
     end
 
-    xit "creates a new account" do 
-      repo = AccountRepository.new
+    it "creates a new account" do 
+      encrypted_password_double = double(:fake_password)
+      expect(encrypted_password_double).to receive(:to_s).and_return('$2a$12$rbjCGFwM3HsxeTbTRt8ZjuufQsMuPoq19w6aDqzVRepF2s02ZlKnW')
+
+      bcrypt_double = double(:fake_password)
+      expect(bcrypt_double).to receive(:create).with('test1234').and_return(encrypted_password_double)
+
+      repo = AccountRepository.new(bcrypt_double)
       account = Account.new
 
 
@@ -51,19 +57,9 @@ RSpec.describe AccountRepository do
       expect(all_accounts.last.id).to eq 5
       expect(all_accounts.last.name).to eq 'Thomas Seleiro'
       expect(all_accounts.last.email).to eq 'ThomasSeleiro@fakeemail.com'
-      expect(all_accounts.last.password).to eq '$2a$12$3szom8F8U2FzRLw/9Hbtre/q7lE7T8a3PNy/yoEKVIfpMRW6DRUrw'
+      expect(all_accounts.last.password).to eq '$2a$12$rbjCGFwM3HsxeTbTRt8ZjuufQsMuPoq19w6aDqzVRepF2s02ZlKnW'
       expect(all_accounts.last.dob).to eq '1994-12-15'
     end
 
-    xit "fails as there is a duplicate" do 
-      repo = AccountRepository.new
-      account = Account.new
-      accounts.name = 'Chris Hutchinson'
-      accounts.email = 'chrishutchinson@fakeemail.com'
-      accounts.password = '$2a$12$3szom8F8U2FzRLw/9Hbtre/q7lE7T8a3PNy/yoEKVIfpMRW6DRUgm'
-      accounts.dob = '1982-12-15'
-
-      expect { repo.create(account) }.to raise_error "Duplicate email"
-    end 
   end 
 end
