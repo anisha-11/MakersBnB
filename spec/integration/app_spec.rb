@@ -3,7 +3,19 @@ require "rack/test"
 require_relative '../../app'
 require 'json'
 
+
+
+def reset_makersbnb_database
+  seed_sql = File.read('spec/sprint_1_seeds.sql')
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'makersbnb_test' })
+  connection.exec(seed_sql)
+end
+
 describe Application do
+
+  before(:each) do
+    reset_makersbnb_database
+  end
   # This is so we can use rack-test helper methods.
   include Rack::Test::Methods
 
@@ -27,8 +39,12 @@ describe Application do
       expect(response.body).to include('<h2>Sign up to MakersBnB</h2>')
       expect(response.body).to include('<form action="/" method="POST">')
       expect(response.body).to include('</form>')
+      expect(response.body).to include('<label>Name</label>')
+      expect(response.body).to include('<input type="text" name="name" maxlength="100" required>')
       expect(response.body).to include('<label>Email Address</label>')
-      expect(response.body).to include('<input type="text" name="email" maxlength="100" required>')
+      expect(response.body).to include('<input type="email" name="email" maxlength="100" required>')
+      expect(response.body).to include('<label>Date of Birth</label>')
+      expect(response.body).to include('<input type="date" name="dob" required>')
       expect(response.body).to include('<label>Password</label>')
       expect(response.body).to include('<input type="password" name="password" maxlength="8" required>')
       expect(response.body).to include('<label>Password Confirmation</label>')
@@ -36,4 +52,14 @@ describe Application do
       expect(response.body).to include('<input type="submit" value="Sign Up">')
     end
   end
+
+  context 'POST /' do
+    it 'creates a new account and return confirmation page' do
+      response = post("/", name: "Thomas Seleiro", email: "ThomasSeleiro@fakeemail.com", dob: "2000-12-01", password: "test1234", password_confirmation: "test1234")
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<h2>Sign up complete for Thomas Seleiro</h2>')
+      expect(response.body).to include('<a href="/spaces">View spaces</a>')
+    end
+  end
+
 end
