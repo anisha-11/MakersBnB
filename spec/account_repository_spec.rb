@@ -14,7 +14,7 @@ RSpec.describe AccountRepository do
       reset_accounts_table
     end
 
-    xit "gets all accounts" do 
+    it "gets all accounts" do 
       repo = AccountRepository.new
 
       accounts = repo.all
