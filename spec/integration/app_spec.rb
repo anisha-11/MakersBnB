@@ -50,6 +50,7 @@ describe Application do
       expect(response.body).to include('<label>Password Confirmation</label>')
       expect(response.body).to include('<input type="password" name="password_confirmation" minlength="8" maxlength="8" required>')
       expect(response.body).to include('<input type="submit" value="Sign Up" class="button">')
+      expect(response.body).to include('<a href="/sessions/new">Login</a>')
     end
   end
 
@@ -78,4 +79,19 @@ describe Application do
     end
   end
 
+  context "GET '/sessions/new' " do 
+    it "get the login page" do 
+      response = get('/sessions/new')
+      expect(response.status).to eq 200
+      expect(response.body).to include('<h2>Login to MakersBnB</h2>')
+      expect(response.body).to include('<form action="/sessions/new" method="POST">')
+      expect(response.body).to include('</form>')
+      expect(response.body).to include('<label>Email Address</label>')
+      expect(response.body).to include('<input type="email" name="email" maxlength="100" required>')
+      expect(response.body).to include('<label>Password</label>')
+      expect(response.body).to include('<input type="password" name="password" minlength="8" maxlength="8" required>')
+      expect(response.body).to include('<input type="submit" value="Login" class="button">')
+      expect(response.body).to include('<a href="/sessions/new">Login</a>')
+    end
+  end
 end

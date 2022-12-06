@@ -53,6 +53,10 @@ class Application < Sinatra::Base
     return erb(:signup_confirmation)
   end
 
+  get '/sessions/new' do 
+    return erb(:login)
+  end 
+
   private
 
   def password_confirmation?
