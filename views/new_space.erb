@@ -7,16 +7,8 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>Book a Space</h1>
+    <h1>List a space</h1>
     <body>Book a space in one of our beautiful residences! You don't want to miss out</body>
     <h2> <a href="/spaces/new"> List a space</a> </h2>
-    <main class="content-width">
-    <%@spaces.each do |space|%>
-      <h2><%=space.name %></h2>
-      <%=space.description %>
-      <%=space.price %>
-    <%end%>
-    </main>
-
   </body>
 </html>

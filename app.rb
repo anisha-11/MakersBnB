@@ -22,4 +22,9 @@ DatabaseConnection.connect("makersbnb_test")
       @spaces = repo.all
       return erb(:spaces)
     end
+
+    get '/spaces/new' do
+      return erb(:new_space)
+    end
+
   end

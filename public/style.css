@@ -1,6 +1,7 @@
 body {
   font-family: system-ui, sans-serif;
   color: #333;
+  text-align: center;
 }
 
 .content-width {

@@ -41,6 +41,16 @@ describe Application do
       expect(response.body).to include '<h2>House</h2>'
       expect(response.body).to include '<h2>Flat</h2>'
       expect(response.body).to include '<h2>Tree House</h2>'
+      expect(response.body).to include '<a href="/spaces/new"> List a space</a>'
+    end
+  end
+
+  context 'GET /spaces/new' do
+    it 'should get a page to add a new space' do
+      response = get('/spaces/new')
+
+      expect(response.status).to eq 200
+      expect(response.body).to include '<h1>List a Space</h1>'
 
     end
   end
