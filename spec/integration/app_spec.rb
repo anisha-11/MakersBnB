@@ -23,6 +23,17 @@ describe Application do
       response = get('/')
 
       expect(response.status).to eq(200)
+      expect(response.body).to include('<h1>Feel at home, anywhere</h1>')
+      expect(response.body).to include('<h2>Sign up to MakersBnB</h2>')
+      expect(response.body).to include('<form action="/" method="POST">')
+      expect(response.body).to include('</form>')
+      expect(response.body).to include('<label>Email Address</label>')
+      expect(response.body).to include('<input type="text" name="email" maxlength="100" required>')
+      expect(response.body).to include('<label>Password</label>')
+      expect(response.body).to include('<input type="password" name="password" maxlength="8" required>')
+      expect(response.body).to include('<label>Password Confirmation</label>')
+      expect(response.body).to include('<input type="password" name="password_confirmation" maxlength="8" required>')
+      expect(response.body).to include('<input type="submit" value="Sign Up">')
     end
   end
 end
