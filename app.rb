@@ -10,13 +10,20 @@ class Application < Sinatra::Base
   end
 
   get '/' do
+    @error_message = ''
     return erb(:index)
   end
 
+
   post '/' do
+    if params[:password_confirmation] != params[:password] 
+      @error_message = 'Passwords do not match. Please re-submit.'
+      return erb(:index)
+    end 
+
     repo = AccountRepository.new
     new_account = Account.new
-
+    
     new_account.email = params[:email]
     new_account.password = params[:password]
     @name = params[:name]

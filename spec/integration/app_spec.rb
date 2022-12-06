@@ -46,9 +46,9 @@ describe Application do
       expect(response.body).to include('<label>Date of Birth</label>')
       expect(response.body).to include('<input type="date" name="dob" required>')
       expect(response.body).to include('<label>Password</label>')
-      expect(response.body).to include('<input type="password" name="password" maxlength="8" required>')
+      expect(response.body).to include('<input type="password" name="password" minlength="8" maxlength="8" required>')
       expect(response.body).to include('<label>Password Confirmation</label>')
-      expect(response.body).to include('<input type="password" name="password_confirmation" maxlength="8" required>')
+      expect(response.body).to include('<input type="password" name="password_confirmation" minlength="8" maxlength="8" required>')
       expect(response.body).to include('<input type="submit" value="Sign Up">')
     end
   end
@@ -59,6 +59,14 @@ describe Application do
       expect(response.status).to eq(200)
       expect(response.body).to include('<h2>Sign up complete for Thomas Seleiro</h2>')
       expect(response.body).to include('<a href="/spaces">View spaces</a>')
+    end
+
+    it 'returns error message on signup page, when passwords do not match' do
+      response = post("/", name: "Thomas Seleiro", email: "ThomasSeleiro@fakeemail.com", dob: "2000-12-01", password: "test1234", password_confirmation: "test4321")
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<h1>Feel at home, anywhere</h1>')
+      expect(response.body).to include('<h2>Sign up to MakersBnB</h2>')
+      expect(response.body).to include('<p>Passwords do not match. Please re-submit.</p>')
     end
   end
 
