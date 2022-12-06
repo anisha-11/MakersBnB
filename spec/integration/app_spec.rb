@@ -56,7 +56,20 @@ describe Application do
       expect(response.body).to include '<input type="text" name="description" required> <br/>'
       expect(response.body).to include '<input type="text" name="name" required> <br/>'
       expect(response.body).to include '<input type="text" name="name" required> <br/>'
+      expect(response.body).to include '<a href="/spaces"> Back to listings</a>'
+    end
+  end
 
+  context "POST /spaces/new" do
+    it "should create a new space" do
+      response = post('spaces/new', name: 'Luxury spa', description: 'A luxurious spa retreat', price: 199.99)
+
+      expect(response.status).to eq 200
+      expect(response.body).to include 'Your space has been listed'
+      expect(response.body).to include '<a href="/spaces"> Back to listings</a>'
+
+      response = get('/spaces')
+      expect(response.body).to include '<h2>Luxury spa</h2>'
     end
   end
 end

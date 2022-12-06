@@ -16,7 +16,6 @@ DatabaseConnection.connect("makersbnb_test")
       return erb(:index)
     end
 
-
     get '/spaces' do
       repo = SpaceRepository.new
       @spaces = repo.all
@@ -25,6 +24,16 @@ DatabaseConnection.connect("makersbnb_test")
 
     get '/spaces/new' do
       return erb(:new_space)
+    end
+
+    post '/spaces/new' do
+      repo = SpaceRepository.new
+      new_space = Space.new
+      new_space.name = params[:name]
+      new_space.description = params[:description]
+      new_space.price = params[:price]
+      repo.create(new_space)
+      return erb(:listed_space)
     end
 
   end
