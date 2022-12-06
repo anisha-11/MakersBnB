@@ -26,6 +26,27 @@ class AccountRepository
 
     return nil
   end
+
+  def find_by_email(email)
+    sql = 'SELECT * FROM accounts WHERE email = $1;'
+    result_set = DatabaseConnection.exec_params(sql, [email])
+
+    record = result_set[0]
+    return record_to_account(record)
+  end
+
+  def sign_in(email, submitted_password)
+    user = find_by_email(email)
+
+    return nil if user.nil?
+
+    # Compare the submitted password with the encrypted one saved in the database
+    if BCrypt::Password.new(user.password) == submitted_password
+      return "login success"
+    else
+      return "wrong password"
+    end
+  end
   
   private 
 

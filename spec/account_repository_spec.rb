@@ -61,5 +61,16 @@ RSpec.describe AccountRepository do
       expect(all_accounts.last.dob).to eq '1994-12-15'
     end
 
+    it 'Get a single account by email' do 
+      repo = AccountRepository.new
+
+      account = repo.find_by_email("chrishutchinson@fakeemail.com")
+
+      expect(account.name).to eq 'Chris Hutchinson'
+      expect(account.email).to eq 'chrishutchinson@fakeemail.com'
+      expect(account.password).to eq '$2a$12$3szom8F8U2FzRLw/9Hbtre/q7lE7T8a3PNy/yoEKVIfpMRW6DRUgm'
+      expect(account.dob).to eq '1982-12-15'
+    end
+
   end 
 end

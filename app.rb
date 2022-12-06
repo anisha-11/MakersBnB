@@ -57,6 +57,15 @@ class Application < Sinatra::Base
     return erb(:login)
   end 
 
+  post '/sessions/new' do 
+    repo = AccountRepository.new
+    user = Account.new
+    user.email = params[:email]
+    user.password = params[:password]
+
+    repo.sign_in(user.email, user.password)
+  end
+
   private
 
   def password_confirmation?

@@ -94,4 +94,15 @@ describe Application do
       expect(response.body).to include('<a href="/sessions/new">Login</a>')
     end
   end
+
+  context 'for POST /sessions/new' do
+    it 'logs in user' do
+      response = post("/", name: "Thomas Seleiro", email: "ThomasSeleiro@fakeemail.com", dob: "2000-12-01", password: "test1234", password_confirmation: "test1234")
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<h2>Sign up complete for Thomas Seleiro</h2>')
+      response = post("/sessions/new", email: "ThomasSeleiro@fakeemail.com", password: "test1234")  
+      expect(response.status).to eq 200
+      expect(response.body).to eq "login success"
+    end
+  end
 end
