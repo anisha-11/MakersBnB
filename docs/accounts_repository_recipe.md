@@ -185,18 +185,7 @@ These examples will later be encoded as RSpec tests.
       expect(all_accounts.last.password).to eq '$2a$12$3szom8F8U2FzRLw/9Hbtre/q7lE7T8a3PNy/yoEKVIfpMRW6DRUrw'
       expect(all_accounts.last.dob).to eq '1994-12-15'
     end
-# 3
-# Create a duplicate account
 
-  xit "fails as there is a duplicate"
-      repo = AccountRepository.new
-      account = Account.new
-      accounts.name = 'Chris Hutchinson'
-      accounts.email = 'chrishutchinson@fakeemail.com'
-      accounts.password = '$2a$12$3szom8F8U2FzRLw/9Hbtre/q7lE7T8a3PNy/yoEKVIfpMRW6DRUgm'
-      accounts.dob = '1982-12-15'
-
-      expect { repo.create(account) }.to raise_error "Duplicate email"
 ```
   
 
