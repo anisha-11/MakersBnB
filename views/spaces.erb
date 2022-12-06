@@ -10,5 +10,11 @@
     <h1>Book a Space</h1>
     <main class="content-width">
     </main>
+    <%@spaces.each do |space|%>
+      space.name
+      space.description
+      space.price
+    <%end%>
+
   </body>
 </html>

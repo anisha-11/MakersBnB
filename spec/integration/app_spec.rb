@@ -3,6 +3,12 @@ require "rack/test"
 require_relative '../../app'
 require 'json'
 
+def reset_spaces_table
+  seed_sql = File.read('spec/sprint_1_seeds.sql')
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'makersbnb_test' })
+  connection.exec(seed_sql)
+end
+
 describe Application do
   # This is so we can use rack-test helper methods.
   include Rack::Test::Methods
@@ -32,7 +38,12 @@ describe Application do
 
       expect(response.status).to eq 200
       expect(response.body).to include '<h1>Book a Space</h1>'
+      expect(response.body).to include '<h2>House</h2>'
+      expect(response.body).to include '<h2>Flat</h2>'
+      expect(response.body).to include '<h2>Tree House</h2>'
 
     end
   end
+
+
 end
