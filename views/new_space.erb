@@ -3,12 +3,25 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Book a Space</title>
+    <title>List a Space</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>List a space</h1>
+    <h1>List a Space</h1>
     <body>Book a space in one of our beautiful residences! You don't want to miss out</body>
-    <h2> <a href="/spaces/new"> List a space</a> </h2>
+
+
+    <form action="/spaces" method="POST">
+        <label> Name </label>
+        <input type="text" name="name" required> <br/>
+        <label> Description </label>
+        <input type="text" name="description" required> <br/>
+        <label> Price per Night($)  </label>
+        <input type="text" name="price" required> <br/>
+        <!-- <input type="date" name="Price per night($)" />
+        <input type="date" name="Price per night($)" /> -->
+
+        <input type="submit" value="List my Space" />
+      </form>
   </body>
 </html>

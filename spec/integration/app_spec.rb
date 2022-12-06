@@ -51,9 +51,12 @@ describe Application do
 
       expect(response.status).to eq 200
       expect(response.body).to include '<h1>List a Space</h1>'
+      expect(response.body).to include '<input type="submit" value="List my Space" />'
+      expect(response.body).to include '<input type="text" name="price" required> <br/>'
+      expect(response.body).to include '<input type="text" name="description" required> <br/>'
+      expect(response.body).to include '<input type="text" name="name" required> <br/>'
+      expect(response.body).to include '<input type="text" name="name" required> <br/>'
 
     end
   end
-
-
 end
