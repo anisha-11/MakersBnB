@@ -3,6 +3,11 @@ require 'sinatra/reloader'
 require_relative 'lib/database_connection'
 require_relative 'lib/account_repository'
 
+if ENV['ENV'] == 'test'
+  DatabaseConnection.connect("makersbnb_test")
+else
+  DatabaseConnection.connect("makersbnb")
+end
 
 class Application < Sinatra::Base
   configure :development do
@@ -22,6 +27,13 @@ class Application < Sinatra::Base
     end 
 
     repo = AccountRepository.new
+    repo.all.each do |account|
+      if account.email == params[:email]
+        @error_message = 'Email already registered. Please re-submit or sign-in.'
+        return erb(:index)
+      end 
+    end 
+    
     new_account = Account.new
     
     new_account.email = params[:email]
@@ -34,5 +46,4 @@ class Application < Sinatra::Base
 
     return erb(:signup_confirmation)
   end
-
 end

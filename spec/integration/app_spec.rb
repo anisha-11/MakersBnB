@@ -68,6 +68,14 @@ describe Application do
       expect(response.body).to include('<h2>Sign up to MakersBnB</h2>')
       expect(response.body).to include('<p>Passwords do not match. Please re-submit.</p>')
     end
+
+    it 'returns error message on signup page, when email is duplicated' do 
+      response = post("/", name: "Thomas Seleiro", email: "chrishutchinson@fakeemail.com", dob: "2000-12-01", password: "test1234", password_confirmation: "test1234")
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<h1>Feel at home, anywhere</h1>')
+      expect(response.body).to include('<h2>Sign up to MakersBnB</h2>')
+      expect(response.body).to include('<p>Email already registered. Please re-submit or sign-in.</p>')
+    end
   end
 
 end
