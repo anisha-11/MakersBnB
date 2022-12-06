@@ -25,4 +25,14 @@ describe Application do
       expect(response.status).to eq(200)
     end
   end
+
+  context 'GET /spaces' do
+    it 'should get a page of all spaces' do
+      response = get('/spaces')
+
+      expect(response.status).to eq 200
+      expect(response.body).to include '<h1>Book a Space</h1>'
+
+    end
+  end
 end

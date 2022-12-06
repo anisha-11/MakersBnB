@@ -1,3 +1,22 @@
 body {
-    font-size: 18px;
+  font-family: system-ui, sans-serif;
+  color: #333;
+}
+
+.content-width {
+  width: 90%;
+  margin: 2rem auto;
+  max-width: 70ch; 
+}
+
+section{
+  margin: 4rem 0;
+}
+
+h1 {
+  text-align: center;
+}
+
+h2 {
+  color: mediumblue;
 }
