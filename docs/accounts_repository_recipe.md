@@ -14,7 +14,9 @@ Otherwise, [follow this recipe to design and create the SQL schema for your tabl
 Table: accounts
 
 Columns:
-id | email | password | name | username
+id | name | email | password | dob
+
+
 ```
 
 ## 2. Create Test SQL seeds
@@ -44,7 +46,7 @@ INSERT INTO spaces (name, description, price, account_id) VALUES
 Run this SQL file on the database to truncate (empty) the table, and insert the seed data. Be mindful of the fact any existing records in the table will be deleted.
 
 ```bash
-psql -h 127.0.0.1 makersbnb_test < /spec/seeds_{table_name}.sql
+psql -h 127.0.0.1 makersbnb_test < /spec/sprint_1_seeds.sql
 ```
 
 ## 3. Define the class names
@@ -79,7 +81,7 @@ Define the attributes of your Model class. You can usually map the table columns
 
 class Account
   # Replace the attributes by your own columns.
-  attr_accessor :id, :email, :password, :name, :username
+  attr_accessor :id, :name, :email, :password, :dob
 end
 
 ```
@@ -105,23 +107,23 @@ class AccountRepository
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, email, password, name, username FROM accounts;
+    # SELECT id, name, email, password, dob FROM accounts;
 
     # Returns an array of Account objects.
   end
 
   # Gets a single record by its ID
   # One argument: the id (number)
-  def find(id)
-    # Executes the SQL query:
-    # SELECT id, email, password, name, username FROM accounts WHERE id = $1;
+  # def find(id)
+  #   # Executes the SQL query:
+  #   # SELECT id, email, password, name, username FROM accounts WHERE id = $1;
 
-    # Returns a single Account object.
-  end
+  #   # Returns a single Account object.
+  # end
 
   def create(account)
     # Account is an instance of Account object
-    # INSERT INTO accounts (email, password, name, username) VALUES ($1, $2, $3, $4);
+    # INSERT INTO accounts (name, email, password, dob) VALUES ($1, $2, $3, $4);
     # Returns nothing
   end
 end
@@ -145,46 +147,50 @@ accounts = repo.all
 
 accounts.length # =>  4
 
-accounts[0].id # =>  1
-accounts[0].email # =>  'tom@gmail.com'
-accounts[0].password # =>  'pass1'
-accounts[0].name # =>  'Thomas Seleiro'
-accounts[0].username # =>  'TomS'
+accounts.first.id # =>  1
+accounts.first.email # =>  'Chris Hutchinson'
+accounts.first.password # =>  'chrishutchinson@fakeemail.com'
+accounts.first.name # =>  '$2a$12$3szom8F8U2FzRLw/9Hbtre/q7lE7T8a3PNy/yoEKVIfpMRW6DRUgm'
+accounts.first.username # =>  '1982-12-15'
 
-accounts[1].id # =>  2
-accounts[1].email # =>  'robbie@gmail.com'
-accounts[1].password # =>  'word2'
-accounts[1].name # =>  'Robbie Kirkbride'
-accounts[1].username # =>  'rwmk'
+accounts.last.id # =>  4
+accounts.last.email # =>  'Valerio Franchi'
+accounts.last.password # =>  'valeriof@fakeemail.com'
+accounts.last.name # =>  '$2a$12$3szom8F8U2FzRLw/9Hbtre/q7lE7T8a3PNy/yoEKVIfpMRW6DRUvf'
+accounts.last.username # =>  '1995-09-23'
+
 
 # 2
-# Get a single account
-
-repo = AccountRepository.new
-
-account = repo.find(1)
-
-account.id # =>  1
-account.email # =>  'tom@gmail.com'
-account.password # =>  'pass1'
-account.name # =>  'Thomas Seleiro'
-account.username # =>  'TomS'
-
-# 3
 # Create a single account
 
 repo = AccountRepository.new
 account = Account.new
-account.email #=> 'anisha@gmail.com'
-account.name #=> 'Anisha Hirani'
+accounts.email # =>  'Thomas Seleiro'
+accounts.password # =>  'ThomasSeleiro@fakeemail.com'
+accounts.name # =>  '$2a$12$3szom8F8U2FzRLw/9Hbtre/q7lE7T8a3PNy/yoEKVIfpMRW6DRUrw'
+accounts.username # =>  '1994-12-15'
+
 repo.create(account)
 
 all_accounts = repo.all
 all_accounts.last.id #=> 5
-all_accounts.last.email #=> 'anisha@gmail.com'
-all_accounts.last.password #=> 'he11o'
-all_accounts.last.name #=> 'Anisha Hirani'
-all_accounts.last.username #=> 'AHirani'
+accounts.last.email # =>  'Thomas Seleiro'
+accounts.last.password # =>  'ThomasSeleiro@fakeemail.com'
+accounts.last.name # =>  '$2a$12$3szom8F8U2FzRLw/9Hbtre/q7lE7T8a3PNy/yoEKVIfpMRW6DRUrw'
+accounts.last.username # =>  '1994-12-15'
+
+# 3
+# Create a duplicate account
+
+repo = AccountRepository.new
+account = Account.new
+accounts.email # =>  'Chris Hutchinson'
+accounts.password # =>  'chrishutchinson@fakeemail.com'
+accounts.name # =>  '$2a$12$3szom8F8U2FzRLw/9Hbtre/q7lE7T8a3PNy/yoEKVIfpMRW6DRUgm'
+accounts.username # =>  '1982-12-15'
+
+expect { repo.create(account) }.to raise_error "Duplicate email"
+
 ```
 
 Encode this example as a test.
@@ -201,10 +207,11 @@ This is so you get a fresh table contents every time you run the test suite.
 # file: spec/accounts_repository_spec.rb
 
 def reset_accounts_table
-  seed_sql = File.read('spec/seeds.sql')
-  connection = PG.connect({ host: '127.0.0.1', dbname: 'chitter_database_test' })
+  seed_sql = File.read('spec/sprint_1_seeds.sql')
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'makersbnb_test' })
   connection.exec(seed_sql)
 end
+
 
 describe AccountRepository do
   before(:each) do 
