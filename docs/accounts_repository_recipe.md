@@ -141,57 +141,64 @@ These examples will later be encoded as RSpec tests.
 # 1
 # Get all accounts
 
-repo = AccountRepository.new
+ xit "gets all accounts" do 
+      repo = AccountRepository.new
 
-accounts = repo.all
+      accounts = repo.all
 
-accounts.length # =>  4
+      expect(accounts.length).to eq 4
 
-accounts.first.id # =>  1
-accounts.first.email # =>  'Chris Hutchinson'
-accounts.first.password # =>  'chrishutchinson@fakeemail.com'
-accounts.first.name # =>  '$2a$12$3szom8F8U2FzRLw/9Hbtre/q7lE7T8a3PNy/yoEKVIfpMRW6DRUgm'
-accounts.first.username # =>  '1982-12-15'
+      expect(accounts.first.id).to eq 1
+      expect(accounts.first.name).to eq 'Chris Hutchinson'
+      expect(accounts.first.email).to eq 'chrishutchinson@fakeemail.com'
+      expect(accounts.first.password).to eq '$2a$12$3szom8F8U2FzRLw/9Hbtre/q7lE7T8a3PNy/yoEKVIfpMRW6DRUgm'
+      expect(accounts.first.dob).to eq '1982-12-15'
 
-accounts.last.id # =>  4
-accounts.last.email # =>  'Valerio Franchi'
-accounts.last.password # =>  'valeriof@fakeemail.com'
-accounts.last.name # =>  '$2a$12$3szom8F8U2FzRLw/9Hbtre/q7lE7T8a3PNy/yoEKVIfpMRW6DRUvf'
-accounts.last.username # =>  '1995-09-23'
+      expect(accounts.last.id).to eq 4
+      expect(accounts.last.name).to eq 'Valerio Franchi'
+      expect(accounts.last.email).to eq 'valeriof@fakeemail.com'
+      expect(accounts.last.password).to eq '$2a$12$3szom8F8U2FzRLw/9Hbtre/q7lE7T8a3PNy/yoEKVIfpMRW6DRUvf'
+      expect(accounts.last.dob).to eq '1995-09-23'
+    end
 
 
 # 2
 # Create a single account
 
-repo = AccountRepository.new
-account = Account.new
-accounts.email # =>  'Thomas Seleiro'
-accounts.password # =>  'ThomasSeleiro@fakeemail.com'
-accounts.name # =>  '$2a$12$3szom8F8U2FzRLw/9Hbtre/q7lE7T8a3PNy/yoEKVIfpMRW6DRUrw'
-accounts.username # =>  '1994-12-15'
+ xit "creates a new account" do 
+      repo = AccountRepository.new
+      account = Account.new
 
-repo.create(account)
 
-all_accounts = repo.all
-all_accounts.last.id #=> 5
-accounts.last.email # =>  'Thomas Seleiro'
-accounts.last.password # =>  'ThomasSeleiro@fakeemail.com'
-accounts.last.name # =>  '$2a$12$3szom8F8U2FzRLw/9Hbtre/q7lE7T8a3PNy/yoEKVIfpMRW6DRUrw'
-accounts.last.username # =>  '1994-12-15'
+      account.name = 'Thomas Seleiro'
+      account.email = 'ThomasSeleiro@fakeemail.com'
+      account.password = 'test1234'
+      account.dob = '1994-12-15'
 
+      repo.create(account)
+      all_accounts = repo.all
+
+
+      expect(all_accounts.last.id).to eq 5
+      expect(all_accounts.last.name).to eq 'Thomas Seleiro'
+      expect(all_accounts.last.email).to eq 'ThomasSeleiro@fakeemail.com'
+      expect(all_accounts.last.password).to eq '$2a$12$3szom8F8U2FzRLw/9Hbtre/q7lE7T8a3PNy/yoEKVIfpMRW6DRUrw'
+      expect(all_accounts.last.dob).to eq '1994-12-15'
+    end
 # 3
 # Create a duplicate account
 
-repo = AccountRepository.new
-account = Account.new
-accounts.email # =>  'Chris Hutchinson'
-accounts.password # =>  'chrishutchinson@fakeemail.com'
-accounts.name # =>  '$2a$12$3szom8F8U2FzRLw/9Hbtre/q7lE7T8a3PNy/yoEKVIfpMRW6DRUgm'
-accounts.username # =>  '1982-12-15'
+  xit "fails as there is a duplicate"
+      repo = AccountRepository.new
+      account = Account.new
+      accounts.name = 'Chris Hutchinson'
+      accounts.email = 'chrishutchinson@fakeemail.com'
+      accounts.password = '$2a$12$3szom8F8U2FzRLw/9Hbtre/q7lE7T8a3PNy/yoEKVIfpMRW6DRUgm'
+      accounts.dob = '1982-12-15'
 
-expect { repo.create(account) }.to raise_error "Duplicate email"
-
+      expect { repo.create(account) }.to raise_error "Duplicate email"
 ```
+  
 
 Encode this example as a test.
 
