@@ -2,17 +2,13 @@
 <html>
     <head>
         <title>MakersBnB</title>
-
-        <!--
-            Head to https://github.com/makersacademy/web-applications/blob/main/pills/loading_css_or_static_files.md
-            If you're wondering how the CSS file below is being loaded.
-        -->
         <link rel="stylesheet" href="/style.css" >
     </head>
     <body>
         <h1>Feel at home, anywhere</h1>
         <h2>Sign up to MakersBnB</h2>
         <form action="/" method="POST">
+            <div class='signup_form'>
             <label>Name</label>
             <input type="text" name="name" maxlength="100" required><br /><br />
             <label>Email Address</label>
@@ -23,7 +19,8 @@
             <input type="password" name="password" minlength="8" maxlength="8" required><br /><br />
             <label>Password Confirmation</label>
             <input type="password" name="password_confirmation" minlength="8" maxlength="8" required><br /><br />
-            <input type="submit" value="Sign Up">
+            <input type="submit" value="Sign Up" class="button">
+            </div>
         </form>
         <p><%=@error_message%></p>
     </body>

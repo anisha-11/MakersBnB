@@ -21,14 +21,21 @@ class Application < Sinatra::Base
 
 
   post '/' do
-    if params[:password_confirmation] != params[:password] 
+
+    @password = params[:password_confirmation]
+    @password_confirmation = params[:password] 
+    @name = params[:name]
+    email = params[:email]
+
+    if password_confirmation?
       @error_message = 'Passwords do not match. Please re-submit.'
       return erb(:index)
     end 
 
     repo = AccountRepository.new
+
     repo.all.each do |account|
-      if account.email == params[:email]
+      if account.email == email
         @error_message = 'Email already registered. Please re-submit or sign-in.'
         return erb(:index)
       end 
@@ -36,9 +43,8 @@ class Application < Sinatra::Base
     
     new_account = Account.new
     
-    new_account.email = params[:email]
-    new_account.password = params[:password]
-    @name = params[:name]
+    new_account.email = email
+    new_account.password = @password
     new_account.name = @name 
     new_account.dob = params[:dob]
 
@@ -46,4 +52,11 @@ class Application < Sinatra::Base
 
     return erb(:signup_confirmation)
   end
+
+  private
+
+  def password_confirmation?
+    return @password_confirmation != @password
+  end
+
 end

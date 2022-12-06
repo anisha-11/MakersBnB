@@ -8,7 +8,7 @@ CREATE TABLE accounts (
   dob date
 );
 
-TRUNCATE TABLE accounts, spaces RESTART IDENTITY CASCADE;
+TRUNCATE TABLE accounts RESTART IDENTITY CASCADE;
 
 INSERT INTO accounts (name, email, password, dob) VALUES 
 ('Chris Hutchinson', 'chrishutchinson@fakeemail.com', '$2a$12$3szom8F8U2FzRLw/9Hbtre/q7lE7T8a3PNy/yoEKVIfpMRW6DRUgm', '1982-12-15'),

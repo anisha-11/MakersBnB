@@ -49,7 +49,7 @@ describe Application do
       expect(response.body).to include('<input type="password" name="password" minlength="8" maxlength="8" required>')
       expect(response.body).to include('<label>Password Confirmation</label>')
       expect(response.body).to include('<input type="password" name="password_confirmation" minlength="8" maxlength="8" required>')
-      expect(response.body).to include('<input type="submit" value="Sign Up">')
+      expect(response.body).to include('<input type="submit" value="Sign Up" class="button">')
     end
   end
 
