@@ -13,7 +13,14 @@
     <main class="content-width">
     <%@spaces.each do |space|%>
       <h2><%=space.name %></h2>
-      <%=space.description %>
+
+
+      <% description = space.description %>
+      <% if description.length > 20 %>
+        <%=description[0..20] + "..." %>
+      <% else %>
+        <%=description %>
+      <% end %>
       <%=space.price %>
     <%end%>
     </main>

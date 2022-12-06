@@ -43,7 +43,15 @@ describe Application do
       expect(response.body).to include '<h2>Tree House</h2>'
       expect(response.body).to include '<a href="/spaces/new"> List a space</a>'
     end
+
+    it "adds an ellipsis when the description is longer than 20 characters" do
+      response = get('/spaces')
+      expect(response.status).to eq 200
+      expect(response.body).to include 'Stunning two bedroom...'
+    end
   end
+
+
 
   context 'GET /spaces/new' do
     it 'should get a page to add a new space' do
