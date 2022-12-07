@@ -53,12 +53,12 @@ Usually, the Model class name will be the capitalised table name (single instead
 # Table name: accounts
 
 # Model class
-# (in lib/account.rb)
+# (in lib/booking.rb)
 class Booking
 end
 
 # Repository class
-# (in lib/account_repository.rb)
+# (in lib/booking_repository.rb)
 class BookingRepository
 end
 ```
