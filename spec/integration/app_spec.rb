@@ -153,4 +153,33 @@ describe Application do
       expect(response.body).to include '<h2><a href="/spaces/5">Luxury spa</a></h2>'
     end
   end
+
+
+  context "for GET /spaces/:id" do
+     it "returns info from space 1" do
+       response = get("/spaces/1")
+       expect(response.body).to include('<h2>House</h2>')
+       expect(response.body).to include('Stunning two bedroom house with a garden')
+       expect(response.body).to include('$99.99')
+       expect(response.body).to include('<label>Pick a night</label>')
+       expect(response.body).to include('<input type="date" name="date" required>')
+       expect(response.body).to include('<input type="submit" value="Request to Book" class="button">')
+       expect(response.body).to include('<form action="/requests/new" method="POST">')
+       expect(response.body).to include('</form>')
+
+     end
+     it "returns info from space 2" do
+       response = get("/spaces/2")
+       expect(response.body).to include('<h2>Flat</h2>')
+       expect(response.body).to include('Terrible one bedroom house with a balcony')
+       expect(response.body).to include('$2.99')
+       expect(response.body).to include('<label>Pick a night</label>')
+       expect(response.body).to include('<input type="date" name="date" required>')
+       expect(response.body).to include('<input type="submit" value="Request to Book" class="button">')
+       expect(response.body).to include('<form action="/requests/new" method="POST">')
+       expect(response.body).to include('</form>')
+     end
+   end
+
+
 end
