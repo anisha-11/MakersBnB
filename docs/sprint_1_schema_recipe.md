@@ -23,6 +23,14 @@ As a user
 I want to add multiple spaces
 
 
+As a user
+I want to choose the date I want to book
+As a user
+I want select the space I want to book
+
+Error message if date already booked
+
+
 ```
 
 ```
@@ -30,6 +38,7 @@ Nouns:
 
 account, email, name, password, DOB
 space, name, description, price
+booking, date, space_id, user_id, status (pending, approved, denied)
 
 ```
 
@@ -41,14 +50,19 @@ Put the different nouns in this table. Replace the example with your own nouns.
 | --------------------- | ------------------  |
 | account               | name, email, password, DOB
 | space                 | name, description, price
+| booking               | date, status, space_id, user_id
 
 1. Name of the first table (always plural): `accounts` 
 
     Column names: `name`, `email`, `password`, `DOB`
 
-2. Name of the second table (always plural): `space` 
+2. Name of the second table (always plural): `spaces` 
 
     Column names: `name`, `description`, `price`
+
+3. Name of the second table (always plural): `bookings` 
+
+    Column names: `date`, `status`, `space_id`, `user_id`
 
 ## 3. Decide the column types.
 
@@ -74,6 +88,11 @@ name: text
 description: text
 price: money
 
+Table: spaces
+id: SERIAL
+date: date
+status: text
+
 ```
 
 ## 4. Decide on The Tables Relationship
@@ -96,7 +115,7 @@ Replace the relevant bits in this example with your own:
 ```
 # EXAMPLE
 
-1. Can one acount have many spaces? YES
+1. Can one account have many spaces? YES
 2. Can one space have many accounts? NO
 
 -> Therefore,
@@ -104,6 +123,32 @@ Replace the relevant bits in this example with your own:
 -> An space BELONGS TO an account
 
 -> Therefore, the foreign key is on the spaces table.
+
+
+
+1. Can one booking have many spaces? NO
+2. Can one space have many bookings? YES
+
+-> Therefore,
+-> An space HAS MANY bookings
+-> A booking BELONGS TO a space
+
+-> Therefore, the foreign key is on the bookings table.
+
+
+
+1. Can one account have many bookings? YES
+2. Can one booking have many accounts? NO
+
+-> Therefore,
+-> An account HAS MANY bookings
+-> A booking BELONGS TO an account
+
+-> Therefore, the foreign key is on the bookings table.
+
+
+
+
 ```
 
 *If you can answer YES to the two questions, you'll probably have to implement a Many-to-Many relationship, which is more complex and needs a third table (called a join table).*
@@ -135,6 +180,23 @@ CREATE TABLE spaces (
   account_id int,
   constraint fk_account foreign key(account_id)
     references accounts(id)
+    on delete cascade
+);
+
+
+-- Then the table with the foreign key first.
+CREATE TABLE bookings (
+  id SERIAL PRIMARY KEY,
+  date date,
+  status text,
+-- The foreign key name is always {other_table_singular}_id
+  account_id int,
+  constraint fk_account foreign key(account_id)
+    references accounts(id)
+    on delete cascade,
+  space_id int,
+  constraint fk_space foreign key(space_id)
+    references spaces(id)
     on delete cascade
 );
 
