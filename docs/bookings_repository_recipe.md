@@ -28,7 +28,7 @@ If seed data is provided (or you already created it), you can skip this step.
 ```sql
 TRUNCATE TABLE bookings RESTART IDENTITY CASCADE;
 
-INSERT INTO bookings (date, status, account_id, space_id) VALUES 
+INSERT INTO bookings (date, status, account_id, space_id) VALUES
 ('2022-12-15', 'Pending', 1, 1),
 ('2023-01-01', 'Confirmed', 4, 2),
 ('2023-06-25', 'Denied', 4, 3),
@@ -54,12 +54,12 @@ Usually, the Model class name will be the capitalised table name (single instead
 
 # Model class
 # (in lib/account.rb)
-class Account
+class Booking
 end
 
 # Repository class
 # (in lib/account_repository.rb)
-class AccountRepository
+class BookingRepository
 end
 ```
 
@@ -74,9 +74,9 @@ Define the attributes of your Model class. You can usually map the table columns
 # Model class
 # (in lib/account.rb)
 
-class Account
+class Booking
   # Replace the attributes by your own columns.
-  attr_accessor :id, :name, :email, :password, :dob
+  attr_accessor :id, :date, :status, :account_id, :space_id
 end
 
 ```
@@ -91,34 +91,34 @@ Using comments, define the method signatures (arguments and return value) and wh
 
 ```ruby
 # EXAMPLE
-# Table name: accounts
+# Table name: Bookings
 
 # Repository class
 # (in lib/account_repository.rb)
 
-class AccountRepository
+class BookingRepository
 
   # Selecting all records
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, name, email, password, dob FROM accounts;
+    # SELECT id, date, status, account_id, space_id FROM bookings;
 
     # Returns an array of Account objects.
   end
 
   # Gets a single record by its ID
   # One argument: the id (number)
-  # def find(id)
+  def find(id)
   #   # Executes the SQL query:
-  #   # SELECT id, email, password, name, username FROM accounts WHERE id = $1;
+   SELECT id, date, status, account_id, space_id FROM spaces WHERE id = $1;
 
   #   # Returns a single Account object.
-  # end
+  end
 
-  def create(account)
+  def create(booking)
     # Account is an instance of Account object
-    # INSERT INTO accounts (name, email, password, dob) VALUES ($1, $2, $3, $4);
+    # INSERT INTO bookings ( date, status, account_id, space_id) VALUES ($1, $2, $3, $4);
     # Returns nothing
   end
 end
@@ -136,53 +136,65 @@ These examples will later be encoded as RSpec tests.
 # 1
 # Get all accounts
 
- xit "gets all accounts" do 
-      repo = AccountRepository.new
+ xit "gets all bookings" do
+      repo = BookingRepository.new
 
-      accounts = repo.all
+      bookings = repo.all
 
-      expect(accounts.length).to eq 4
+      expect(bookings.length).to eq 4
 
-      expect(accounts.first.id).to eq 1
-      expect(accounts.first.name).to eq 'Chris Hutchinson'
-      expect(accounts.first.email).to eq 'chrishutchinson@fakeemail.com'
-      expect(accounts.first.password).to eq '$2a$12$3szom8F8U2FzRLw/9Hbtre/q7lE7T8a3PNy/yoEKVIfpMRW6DRUgm'
-      expect(accounts.first.dob).to eq '1982-12-15'
+      expect(bookings.first.id).to eq 1
+      expect(bookings.first.date).to eq '2022-12-15'
+      expect(bookings.first.status).to eq 'Pending'
+      expect(bookings.first.account_id).to eq 1
+      expect(bookings.first.space_id).to eq 1
 
-      expect(accounts.last.id).to eq 4
-      expect(accounts.last.name).to eq 'Valerio Franchi'
-      expect(accounts.last.email).to eq 'valeriof@fakeemail.com'
-      expect(accounts.last.password).to eq '$2a$12$3szom8F8U2FzRLw/9Hbtre/q7lE7T8a3PNy/yoEKVIfpMRW6DRUvf'
-      expect(accounts.last.dob).to eq '1995-09-23'
+      expect(bookings.last.id).to eq 4
+      expect(bookings.last.date).to eq '2023-03-25'
+      expect(bookings.last.status).to eq 'Pending'
+      expect(bookings.last.account_id).to eq 3
+      expect(bookings.last.space_id).to eq 1
     end
 
 
 # 2
 # Create a single account
 
- xit "creates a new account" do 
-      repo = AccountRepository.new
-      account = Account.new
+ xit "creates a new booking" do
+      repo = BookingRepository.new
+      booking = Booking.new
 
 
-      account.name = 'Thomas Seleiro'
-      account.email = 'ThomasSeleiro@fakeemail.com'
-      account.password = 'test1234'
-      account.dob = '1994-12-15'
+      booking.date = '2022-12-01'
+      booking.status = 'Pending'
+      booking.account_id = 3
+      booking.space_id = 2
 
-      repo.create(account)
-      all_accounts = repo.all
+      repo.create(booking)
+      all_bookings = repo.all
 
 
-      expect(all_accounts.last.id).to eq 5
-      expect(all_accounts.last.name).to eq 'Thomas Seleiro'
-      expect(all_accounts.last.email).to eq 'ThomasSeleiro@fakeemail.com'
-      expect(all_accounts.last.password).to eq '$2a$12$3szom8F8U2FzRLw/9Hbtre/q7lE7T8a3PNy/yoEKVIfpMRW6DRUrw'
-      expect(all_accounts.last.dob).to eq '1994-12-15'
+      expect(all_bookings.last.id).to eq 5
+      expect(all_bookings.last.date).to eq '2022-12-01'
+      expect(all_bookings.last.status).to eq 'Pending'
+      expect(all_bookings.last.account_id).to eq 3
+      expect(all_bookings.last.space_id).to eq 2
     end
 
+
+xit "finds a specific booking"
+    repo = BookingRepository.new
+
+    booking = repo.find(4)
+
+    expect(booking.id).to eq 4
+    expect(booking.date).to eq '2023-03-25'
+    expect(booking.status).to eq 'Pending'
+    expect(booking.account_id).to eq 3
+    expect(booking.space_id).to eq 1
+
 ```
-  
+
 
 Encode this example as a test.
 
@@ -205,7 +217,7 @@ end
 
 
 describe AccountRepository do
-  before(:each) do 
+  before(:each) do
     reset_accounts_table
   end
 
