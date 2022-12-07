@@ -105,4 +105,52 @@ describe Application do
       expect(response.body).to eq "login success"
     end
   end
+
+  context 'GET /spaces' do
+    it 'should get a page of all spaces' do
+      response = get('/spaces')
+
+      expect(response.status).to eq 200
+      expect(response.body).to include '<h1>Book a Space</h1>'
+      expect(response.body).to include '<h2>House</h2>'
+      expect(response.body).to include '<h2>Flat</h2>'
+      expect(response.body).to include '<h2>Tree House</h2>'
+      expect(response.body).to include '<a href="/spaces/new"> List a space</a>'
+    end
+
+    it "adds an ellipsis when the description is longer than 20 characters" do
+      response = get('/spaces')
+      expect(response.status).to eq 200
+      expect(response.body).to include 'Stunning two bedroom ...'
+    end
+  end
+
+
+
+  context 'GET /spaces/new' do
+    it 'should get a page to add a new space' do
+      response = get('/spaces/new')
+
+      expect(response.status).to eq 200
+      expect(response.body).to include '<h1>List a Space</h1>'
+      expect(response.body).to include '<input type="submit" value="List my Space" />'
+      expect(response.body).to include '<input type="text" name="price" required> <br/>'
+      expect(response.body).to include '<input type="text" name="description" required> <br/>'
+      expect(response.body).to include '<input type="text" name="name" required> <br/>'
+      expect(response.body).to include '<a href="/spaces"> Back to listings</a>'
+    end
+  end
+
+  context "POST /spaces/new" do
+    it "should create a new space" do
+      response = post('spaces/new', name: 'Luxury spa', description: 'A luxurious spa retreat', price: 199.99)
+
+      expect(response.status).to eq 200
+      expect(response.body).to include 'Your space has been listed'
+      expect(response.body).to include '<a href="/spaces"> Back to listings</a>'
+
+      response = get('/spaces')
+      expect(response.body).to include '<h2>Luxury spa</h2>'
+    end
+  end
 end
