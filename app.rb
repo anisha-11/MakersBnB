@@ -87,6 +87,14 @@ class Application < Sinatra::Base
     repo.sign_in(user.email, user.password)
   end
 
+  get '/spaces/:id' do
+    repo = SpaceRepository.new
+    id = params[:id]
+    @space = repo.find(id)
+
+    return erb(:new_request)
+  end
+
   private
 
   def password_confirmation?
