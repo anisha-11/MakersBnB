@@ -121,7 +121,7 @@ describe Application do
     it "adds an ellipsis when the description is longer than 20 characters" do
       response = get('/spaces')
       expect(response.status).to eq 200
-      expect(response.body).to include 'Stunning two bedroom...'
+      expect(response.body).to include 'Stunning two bedroom ...'
     end
   end
 
