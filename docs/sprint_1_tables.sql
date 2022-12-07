@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS accounts CASCADE;
+DROP TABLE IF EXISTS accounts, spaces, bookings CASCADE;
 
 CREATE TABLE accounts (
   id SERIAL PRIMARY KEY,
@@ -7,8 +7,6 @@ CREATE TABLE accounts (
   password text,
   dob date
 );
-
-DROP TABLE IF EXISTS spaces;
 
 -- Then the table with the foreign key first.
 CREATE TABLE spaces (
@@ -22,8 +20,6 @@ CREATE TABLE spaces (
     references accounts(id)
     on delete cascade
 );
-
-DROP TABLE IF EXISTS bookings;
 
 -- Then the table with the foreign key first.
 CREATE TABLE bookings (
