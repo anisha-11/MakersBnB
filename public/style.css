@@ -1,23 +1,94 @@
 body {
-  font-family: system-ui, sans-serif;
-  color: #333;
-  text-align: center;
-}
-
-.content-width {
-  width: 90%;
-  margin: 2rem auto;
-  max-width: 70ch; 
-}
-
-section{
-  margin: 4rem 0;
+    font-size: 18px;
+    padding: 0;
+    margin: 0;
+    background: #f0eeeb;
 }
 
 h1 {
-  text-align: center;
-}
+    color: #a60f0f;
+    font-family: 'Raleway', sans-serif;
+    font-size: 55px;
+    line-height: 76px;
+    margin: 0;
+    top: 20%;
+    text-align: center;
+  }
 
-h2 {
-  color: mediumblue;
-}
+
+  h2 {
+    color: #1d1b19;
+    font-family: 'Raleway', sans-serif;
+    font-size: 28px;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .signup_form {
+    margin: 40px auto;
+    padding: 10px 30px 10px 30px;
+    background-color: #FFFFFF;
+    overflow: auto;
+    width: 50%;
+    border-radius: 4px;
+    align-self: center;
+    color: #938E89;
+    text-align: left;
+    line-height: 24px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  .links {
+    margin: 10px auto;
+    padding: 10px 30px 10px 30px;
+    overflow: auto;
+    width: 75%;
+    border-radius: 4px;
+    align-self: center;
+    color: #938E89;
+    text-align: center;
+    line-height: 24px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  input {
+    width: 100%;
+    font-family: 'Raleway', sans-serif;
+    font-size: 16px;
+    color: #938E89;
+  }
+
+  .button {
+    background-color: darkseagreen;
+    font-family: 'Raleway', sans-serif;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+  }
+
+  p {
+    color: #444444;
+    line-height: 32px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 20px;
+    font-weight: 250;
+    text-align: center;
+  }
+
+
+  a {
+    color: #214E34;
+    font-family: 'Raleway', sans-serif;
+    font-size: 20px;
+    font-weight: 900;
+    text-align: center;
+    letter-spacing: 2px;
+  }

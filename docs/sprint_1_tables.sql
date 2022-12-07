@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS accounts CASCADE;
 CREATE TABLE accounts (
   id SERIAL PRIMARY KEY,
   name text,
-  email text, 
+  email text UNIQUE, 
   password text,
   dob date
 );
