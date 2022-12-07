@@ -55,7 +55,6 @@ describe Application do
       expect(response.body).to include '<input type="text" name="price" required> <br/>'
       expect(response.body).to include '<input type="text" name="description" required> <br/>'
       expect(response.body).to include '<input type="text" name="name" required> <br/>'
-      expect(response.body).to include '<input type="text" name="name" required> <br/>'
       expect(response.body).to include '<a href="/spaces"> Back to listings</a>'
     end
   end
