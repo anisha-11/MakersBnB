@@ -70,7 +70,7 @@ describe Application do
       expect(response.body).to include('<p>Passwords do not match. Please re-submit.</p>')
     end
 
-    it 'returns error message on signup page, when email is duplicated' do 
+    it 'returns error message on signup page, when email is duplicated' do
       response = post("/", name: "Thomas Seleiro", email: "chrishutchinson@fakeemail.com", dob: "2000-12-01", password: "test1234", password_confirmation: "test1234")
       expect(response.status).to eq(200)
       expect(response.body).to include('<h1>Feel at home, anywhere</h1>')
@@ -79,8 +79,8 @@ describe Application do
     end
   end
 
-  context "GET '/sessions/new' " do 
-    it "get the login page" do 
+  context "GET '/sessions/new' " do
+    it "get the login page" do
       response = get('/sessions/new')
       expect(response.status).to eq 200
       expect(response.body).to include('<h2>Login to MakersBnB</h2>')
@@ -100,7 +100,7 @@ describe Application do
       response = post("/", name: "Thomas Seleiro", email: "ThomasSeleiro@fakeemail.com", dob: "2000-12-01", password: "test1234", password_confirmation: "test1234")
       expect(response.status).to eq(200)
       expect(response.body).to include('<h2>Sign up complete for Thomas Seleiro</h2>')
-      response = post("/sessions/new", email: "ThomasSeleiro@fakeemail.com", password: "test1234")  
+      response = post("/sessions/new", email: "ThomasSeleiro@fakeemail.com", password: "test1234")
       expect(response.status).to eq 200
       expect(response.body).to eq "login success"
     end
@@ -112,10 +112,10 @@ describe Application do
 
       expect(response.status).to eq 200
       expect(response.body).to include '<h1>Book a Space</h1>'
-      expect(response.body).to include '<h2>House</h2>'
-      expect(response.body).to include '<h2>Flat</h2>'
-      expect(response.body).to include '<h2>Tree House</h2>'
-      expect(response.body).to include '<a href="/spaces/new"> List a space</a>'
+      expect(response.body).to include '<h2><a href="/spaces/1">House</a></h2>'
+      expect(response.body).to include '<h2><a href="/spaces/2">Flat</a></h2>'
+      expect(response.body).to include '<h2><a href="/spaces/3">Tree House</a></h2>'
+      expect(response.body).to include '<a href="/spaces/new">List a space</a>'
     end
 
     it "adds an ellipsis when the description is longer than 20 characters" do
@@ -150,7 +150,7 @@ describe Application do
       expect(response.body).to include '<a href="/spaces"> Back to listings</a>'
 
       response = get('/spaces')
-      expect(response.body).to include '<h2>Luxury spa</h2>'
+      expect(response.body).to include '<h2><a href="/spaces/5">Luxury spa</a></h2>'
     end
   end
 end

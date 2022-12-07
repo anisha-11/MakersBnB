@@ -9,10 +9,10 @@
   <body>
     <h1>Book a Space</h1>
     <body>Book a space in one of our beautiful residences! You don't want to miss out</body>
-    <h2> <a href="/spaces/new"> List a space</a> </h2>
+    <h2> <a href="/spaces/new">List a space</a> </h2>
     <main class="content-width">
     <%@spaces.each do |space|%>
-      <h2><%=space.name %></h2>
+      <h2><a href="/spaces/<%=space.id %>"><%=space.name %></a></h2>
 
 
       <% description = space.description %>
