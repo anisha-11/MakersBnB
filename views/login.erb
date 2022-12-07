@@ -5,24 +5,17 @@
         <link rel="stylesheet" href="/style.css" >
     </head>
     <body>
-        <h1>Feel at home, anywhere</h1>
         <div class='links'>
           <a href="/sessions/new">Login</a>
         </div>
-        <h2>Sign up to MakersBnB</h2>
-        <form action="/" method="POST">
+        <h2>Login to MakersBnB</h2>
+        <form action="/sessions/new" method="POST">
             <div class='signup_form'>
-            <label>Name</label>
-            <input type="text" name="name" maxlength="100" required><br /><br />
             <label>Email Address</label>
             <input type="email" name="email" maxlength="100" required><br /><br />
-            <label>Date of Birth</label>
-            <input type="date" name="dob" required><br /><br />
             <label>Password</label>
             <input type="password" name="password" minlength="8" maxlength="8" required><br /><br />
-            <label>Password Confirmation</label>
-            <input type="password" name="password_confirmation" minlength="8" maxlength="8" required><br /><br />
-            <input type="submit" value="Sign Up" class="button">
+            <input type="submit" value="Login" class="button">
             </div>
         </form>
         <p><%=@error_message%></p>
