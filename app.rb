@@ -98,6 +98,15 @@ class Application < Sinatra::Base
     end
   end
 
+  get '/logout' do
+    return erb(:logout)
+  end
+
+  post '/logout' do
+    session[:user_id] = nil
+    redirect '/'
+  end
+
   get '/spaces/:id' do
     if session[:user_id] == nil
       return redirect('/sessions/new')
@@ -121,7 +130,6 @@ class Application < Sinatra::Base
     repo.create(new_booking)
 
     return erb(:request_confirmation)
-
   end
 
   private
