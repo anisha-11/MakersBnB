@@ -11,6 +11,7 @@ else
 end
 
 class Application < Sinatra::Base
+  enable :sessions
   configure :development do
     register Sinatra::Reloader
     also_reload 'lib/space_repository'
@@ -78,13 +79,22 @@ class Application < Sinatra::Base
     return erb(:login)
   end 
 
-  post '/sessions/new' do 
-    repo = AccountRepository.new
-    user = Account.new
-    user.email = params[:email]
-    user.password = params[:password]
-
-    repo.sign_in(user.email, user.password)
+  post '/sessions/new' do
+    email = params[:email]
+    @password = params[:password]
+    if AccountRepository.new.find_by_email(email) == false
+      @error_message = 'Email not recognized'
+      return erb(:login)
+    else
+      @user = AccountRepository.new.find_by_email(email)
+      if incorrect_password? 
+        @error_message = 'Incorrect password please retry'
+        return erb(:login)   
+      else
+        session[:user_id] = @user.id
+        redirect '/spaces'
+      end
+    end
   end
 
   get '/spaces/:id' do
@@ -100,5 +110,9 @@ class Application < Sinatra::Base
   def password_confirmation?
     return @password_confirmation != @password
   end
+
+  def incorrect_password?
+    return BCrypt::Password.new(@user.password) != @password
+  end 
 
 end
