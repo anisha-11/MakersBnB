@@ -31,6 +31,17 @@ class BookingRepository
     return nil
   end
 
+  def update(booking)
+    sql = 'UPDATE bookings SET date = $1 , status = $2 , account_id = $3, space_id = $4 WHERE id = $5;'
+    params = [booking.date, booking.status, booking.account_id, booking.space_id, booking.id]
+
+    DatabaseConnection.exec_params(sql, params)
+
+    return nil
+
+  end
+
+
   private
 
   def record_to_booking(record)

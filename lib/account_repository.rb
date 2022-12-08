@@ -7,15 +7,15 @@ class AccountRepository
     @encrypter = encrypter
   end
 
-  def all 
+  def all
     sql = 'SELECT * FROM accounts;'
     params = DatabaseConnection.exec_params(sql,[])
 
     accounts = []
     params.each do |record|
-      accounts << record_to_account(record) 
-    end 
-    return accounts 
+      accounts << record_to_account(record)
+    end
+    return accounts
   end
 
   def find(id)
@@ -30,7 +30,7 @@ class AccountRepository
     encrypted_password =  @encrypter.create(account.password)
     sql = 'INSERT INTO accounts (name, email, password, dob) VALUES ($1, $2, $3, $4);'
     params = [account.name, account.email, encrypted_password, account.dob]
-    DatabaseConnection.exec_params(sql, params)    
+    DatabaseConnection.exec_params(sql, params)
 
     return nil
   end
@@ -46,20 +46,7 @@ class AccountRepository
     end
   end
 
-  # def sign_in(email, submitted_password)
-  #   user = find_by_email(email)
-
-  #   return nil if user.nil?
-
-  #   # Compare the submitted password with the encrypted one saved in the database
-  #   if BCrypt::Password.new(user.password) == submitted_password
-  #     return 'login success'
-  #   else
-  #     return 'wrong password'
-  #   end
-  # end
-  
-  private 
+  private
 
   def record_to_account(record)
     account = Account.new
@@ -69,5 +56,5 @@ class AccountRepository
     account.password = record['password']
     account.dob = record['dob']
     return account
-  end 
-end 
+  end
+end

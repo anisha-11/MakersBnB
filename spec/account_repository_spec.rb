@@ -1,6 +1,6 @@
 require 'account_repository'
 
-RSpec.describe AccountRepository do 
+RSpec.describe AccountRepository do
 
   def reset_accounts_table
     seed_sql = File.read('spec/sprint_1_seeds.sql')
@@ -10,11 +10,11 @@ RSpec.describe AccountRepository do
 
 
   describe AccountRepository do
-    before(:each) do 
+    before(:each) do
       reset_accounts_table
     end
 
-    it "gets all accounts" do 
+    it "gets all accounts" do
       repo = AccountRepository.new
 
       accounts = repo.all
@@ -34,7 +34,7 @@ RSpec.describe AccountRepository do
       expect(accounts.last.dob).to eq '1995-09-23'
     end
 
-    it "creates a new account" do 
+    it "creates a new account" do
       encrypted_password_double = double(:fake_password)
       expect(encrypted_password_double).to receive(:to_s).and_return('$2a$12$rbjCGFwM3HsxeTbTRt8ZjuufQsMuPoq19w6aDqzVRepF2s02ZlKnW')
 
@@ -61,7 +61,7 @@ RSpec.describe AccountRepository do
       expect(all_accounts.last.dob).to eq '1994-12-15'
     end
 
-    it 'Get a single account by email' do 
+    it 'Get a single account by email' do
       repo = AccountRepository.new
 
       account = repo.find_by_email("chrishutchinson@fakeemail.com")
@@ -81,5 +81,15 @@ RSpec.describe AccountRepository do
       expect(account.name).to eq 'Valerio Franchi'
     end 
 
-  end 
+    it 'Get a single account by id' do
+      repo = AccountRepository.new
+
+      account = repo.find(1)
+
+      expect(account.name).to eq 'Chris Hutchinson'
+      expect(account.email).to eq 'chrishutchinson@fakeemail.com'
+      expect(account.password).to eq '$2a$12$3szom8F8U2FzRLw/9Hbtre/q7lE7T8a3PNy/yoEKVIfpMRW6DRUgm'
+      expect(account.dob).to eq '1982-12-15'
+    end
+  end
 end
