@@ -64,5 +64,23 @@ RSpec.describe BookingRepository do
 
     end 
 
+    it 'Updates a status' do
+      repo = BookingRepository.new
+      booking = repo.find(1)
+      booking.date = '2022-12-16'
+      booking.status = 'Confirmed'
+      booking.account_id = 2
+      booking.space_id = 2
+
+      repo.update(booking)
+
+      updated_booking = repo.find(1)
+
+      expect(updated_booking.id).to eq 1
+      expect(updated_booking.date).to eq '2022-12-16'
+      expect(updated_booking.status).to eq 'Confirmed'
+      expect(updated_booking.account_id).to eq 2
+      expect(updated_booking.space_id).to eq 2
+    end
   end
 end

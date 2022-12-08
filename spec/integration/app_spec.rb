@@ -262,4 +262,43 @@ describe Application do
     end
   end
 
+
+  context "for GET /requests/confirm/:id" do
+    it "returns info from request 1" do
+      response = get("/requests/confirm/1")
+      expect(response.status).to eq 200
+      expect(response.body).to include('<h2>House</h2>')
+      expect(response.body).to include('Stunning two bedroom house with a garden')
+      expect(response.body).to include('From: chrishutchinson@fakeemail.com')
+      expect(response.body).to include('Date: 2022-12-15')
+      expect(response.body).to include('<input type="submit" name="status" value="Confirm Request" class="button">')
+      expect(response.body).to include('<input type="submit" name="status" value="Deny Request" class="button">')
+      expect(response.body).to include('<form action="/requests/confirm" method="POST">')
+      expect(response.body).to include('</form>')
+    end
+  end
+
+  context "for POST /requests/confirm" do
+   it "modify the status of the booking table to confirmed" do
+     response = get("/requests/confirm/1")
+     expect(response.status).to eq 200
+
+     response = post('requests/confirm', status: 'Confirm Request')
+     expect(response.status).to eq 200
+     expect(response.body).to include 'The booking has been confirmed'
+     expect(response.body).to include '<a href="/spaces"> Back to listings</a>'
+
+   end
+
+   it "modify the status of the booking table to denied" do
+     response = get("/requests/confirm/1")
+     expect(response.status).to eq 200
+
+     response = post('requests/confirm', status: 'Deny Request')
+     expect(response.status).to eq 200
+     expect(response.body).to include 'The booking has been denied'
+     expect(response.body).to include '<a href="/spaces"> Back to listings</a>'
+
+   end
+  end
 end
