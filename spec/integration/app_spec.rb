@@ -262,4 +262,20 @@ describe Application do
     end
   end
 
+
+  context "for GET /requests/:id" do
+    it "returns info from request 1" do
+      response = get("/requests/1")
+      expect(response.status).to eq 200
+      expect(response.body).to include('<h2>House</h2>')
+      expect(response.body).to include('Stunning two bedroom house with a garden')
+      expect(response.body).to include('Email: chrishutchinson@fakeemail.com')
+      expect(response.body).to include('Date: 2022-12-15')
+      expect(response.body).to include('<input type="submit" value="Confirm Request: From chrishutchinson@fakeemail.com" class="button">')
+      expect(response.body).to include('<input type="submit" value="Deny Request: From chrishutchinson@fakeemail.com" class="button">')
+      expect(response.body).to include('<form action="/requests/confirm" method="POST">')
+      expect(response.body).to include('</form>')
+    end
+  end
+
 end

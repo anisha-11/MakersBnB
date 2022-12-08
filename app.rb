@@ -132,6 +132,23 @@ class Application < Sinatra::Base
     return erb(:request_confirmation)
   end
 
+  get '/requests/:id' do
+      booking_repo = BookingRepository.new
+      account_repo = AccountRepository.new
+      space_repo = SpaceRepository.new
+
+      session[:booking_id] = params[:id]
+      @booking = booking_repo.find(session[:booking_id])
+
+      account_id = @booking.account_id
+      @account = account_repo.find(account_id)
+
+      space_id = @booking.space_id
+      @space = space_repo.find(space_id)
+
+      return erb(:confirm_request)
+  end
+
   private
 
   def password_confirmation?

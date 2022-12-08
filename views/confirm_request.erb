@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>MakersBnB</title>
+        <link rel="stylesheet" href="/style.css" >
+    </head>
+    <body>
+        <h2><%= @space.name %></h2>
+        <p><%= @space.description %></p>
+        <p>From: <%= @account.email %></p>
+        <p>Date: <%= @booking.date %></p>
+        <form action="/requests/confirm" method="POST">
+            <div class='signup_form'>
+            <input type="submit" value="Confirm Request: From <%= @account.email %>" class="button">')
+            <input type="submit" value="Deny Request: From <%= @account.email %>" class="button">')
+            </div>
+        </form>
+    </body>
+</html>
