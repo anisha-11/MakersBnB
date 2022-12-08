@@ -11,8 +11,9 @@
         <p>Date: <%= @booking.date %></p>
         <form action="/requests/confirm" method="POST">
             <div class='signup_form'>
-            <input type="submit" value="Confirm Request: From <%= @account.email %>" class="button">')
-            <input type="submit" value="Deny Request: From <%= @account.email %>" class="button">')
+            <input type="submit" name="status" value="Confirm Request" class="button">
+            <br /><br />
+            <input type="submit" name="status" value="Deny Request" class="button">
             </div>
         </form>
     </body>

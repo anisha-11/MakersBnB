@@ -149,6 +149,22 @@ class Application < Sinatra::Base
       return erb(:confirm_request)
   end
 
+  post '/requests/confirm' do
+    # repo = BookingRepository.new
+    # new_booking = Booking.new
+    #
+    # booking_status.status = params[:date]
+    #
+    #
+    # new_booking.space_id = session[:space_id]
+    # new_booking.status = "Pending"
+    # new_booking.account_id = session[:user_id]
+    #
+    # repo.create(new_booking)
+    #
+    # return erb(:request_confirmation)
+  end
+
   private
 
   def password_confirmation?
