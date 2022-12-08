@@ -151,14 +151,15 @@ class Application < Sinatra::Base
 
   post '/requests/confirm' do
     repo = BookingRepository.new
-
     booking = repo.find(session[:booking_id])
-    
     status = params[:status]
 
     if status == "Confirm Request"
       booking.status = 'Confirmed'
       @request_message = 'The booking has been confirmed'
+    elsif status == "Deny Request"
+      booking.status = 'Denied'
+      @request_message = 'The booking has been denied'
     end
 
     repo.update(booking)

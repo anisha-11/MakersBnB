@@ -289,5 +289,16 @@ describe Application do
      expect(response.body).to include '<a href="/spaces"> Back to listings</a>'
 
    end
+
+   it "modify the status of the booking table to denied" do
+     response = get("/requests/confirm/1")
+     expect(response.status).to eq 200
+
+     response = post('requests/confirm', status: 'Deny Request')
+     expect(response.status).to eq 200
+     expect(response.body).to include 'The booking has been denied'
+     expect(response.body).to include '<a href="/spaces"> Back to listings</a>'
+
+   end
   end
 end
