@@ -272,11 +272,32 @@ describe Application do
       response = post('spaces/request', date: '2023-12-01')
       response = get('/requests/1')
       expect(response.status).to eq 200
-      expect(response.body).to include 'My Requests'
-      expect(response.body).to include("<h2>Requests I've received</h2>")
+      expect(response.body).to include 'Requests I have received'
       expect(response.body).to include('<h3>House</h3>')
       expect(response.body).to include('<h3>Pending</h3>')
       expect(response.body).to include('<h3>2022-12-15</h3>')
+    end
+  end
+
+  context "GET /myrequests" do
+    it "takes user to their requests page" do
+      response = post("/", name: "Thomas Seleiro", email: "ThomasSeleiro@fakeemail.com", dob: "2000-12-01", password: "test1234", password_confirmation: "test1234")
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<h2>Sign up complete for Thomas Seleiro</h2>')
+      response = post("/sessions/new", email: "ThomasSeleiro@fakeemail.com", password: "test1234")
+      response = get("/spaces/1")
+      response = post('spaces/request', date: '2023-12-01')
+      response = get("/spaces/2")
+      response = post('spaces/request', date: '2023-01-01')
+      response = get('/myrequests/5')
+      expect(response.status).to eq 200
+      expect(response.body).to include 'Requests I have made'
+      expect(response.body).to include('<h3>House</h3>')
+      expect(response.body).to include('<h3>Pending</h3>')
+      expect(response.body).to include('<h3>2023-12-01</h3>')
+      expect(response.body).to include('<h3>Flat</h3>')
+      expect(response.body).to include('<h3>Pending</h3>')
+      expect(response.body).to include('<h3>2023-01-01</h3>')
     end
   end
 
