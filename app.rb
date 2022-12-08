@@ -133,7 +133,8 @@ class Application < Sinatra::Base
   end
 
   get '/requests/:id' do
-    p session[:user_id] = 
+    session[:user_id] = params[:id]
+    @user_id = params[:id]
     account_repo = AccountRepository.new
     @account = account_repo.find(session[:user_id])
     @space_repo = SpaceRepository.new
@@ -141,13 +142,18 @@ class Application < Sinatra::Base
     my_spaces = spaces.select do |space|
       space.account_id == @account.id
     end
+    space_ids = my_spaces.map do |space|
+      space.id
+    end
+
     booking_repo = BookingRepository.new
     bookings = booking_repo.all
-    @requested_spaces = bookings.select do |booking|
-      my_spaces.each do |space|
-        booking.space_id == space.id
-      end
+
+    @my_requested_spaces = bookings.select do |booking|
+      space_ids.include?(booking.space_id)
     end
+
+
 
     return erb(:requests)
   end

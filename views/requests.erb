@@ -6,8 +6,11 @@
     </head>
     <body>
         <h1>My Requests</h1>
-        <% @requested_spaces.each do |space| %>
-          <h2><%=@space_repository.find(space.space_id).name%></h2>
-        
+        <h2>Requests I've received</h2>
+        <% @my_requested_spaces.each do |space| %>
+          <h3><a href="/requests/confirm/<%=@user_id%>"><%=@space_repo.find(space.space_id).name%></h3>
+          <h3><%=space.status%></h3>
+          <h3><%=space.date%></h3>
+        <% end %>
     </body>
 </html>

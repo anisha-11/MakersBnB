@@ -273,8 +273,10 @@ describe Application do
       response = get('/requests/1')
       expect(response.status).to eq 200
       expect(response.body).to include 'My Requests'
-      expect(response.body).to include "Requests I've received"
-      expect(response.body).to include('<h2>House</h2>')
+      expect(response.body).to include("<h2>Requests I've received</h2>")
+      expect(response.body).to include('<h3>House</h3>')
+      expect(response.body).to include('<h3>Pending</h3>')
+      expect(response.body).to include('<h3>2022-12-15</h3>')
     end
   end
 
