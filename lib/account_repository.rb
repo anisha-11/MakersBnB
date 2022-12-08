@@ -18,6 +18,14 @@ class AccountRepository
     return accounts 
   end
 
+  def find(id)
+    sql = 'SELECT id, name, email, password, dob FROM accounts WHERE id = $1;'
+    result_set = DatabaseConnection.exec_params(sql, [id])
+
+    record = result_set[0]
+    return record_to_account(record)
+  end
+
   def create(account)
     encrypted_password =  @encrypter.create(account.password)
     sql = 'INSERT INTO accounts (name, email, password, dob) VALUES ($1, $2, $3, $4);'

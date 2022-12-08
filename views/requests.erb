@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>MakersBnB</title>
+        <link rel="stylesheet" href="/style.css" >
+    </head>
+    <body>
+        <h1>My Requests</h1>
+        <% @requested_spaces.each do |space| %>
+          <h2><%=@space_repository.find(space.space_id).name%></h2>
+        
+    </body>
+</html>
