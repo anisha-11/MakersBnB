@@ -105,11 +105,28 @@ describe Application do
     end
   end
 
-    it "returns a login error page if wrong password is used" do 
+    it "returns a login error and redirects to login" do 
       response = post("/", name: "Thomas Seleiro", email: "ThomasSeleiro@fakeemail.com", dob: "2000-12-01", password: "test1234", password_confirmation: "test1234")
       expect(response.status).to eq(200)
       expect(response.body).to include('<h2>Sign up complete for Thomas Seleiro</h2>')
       response = post("/sessions/new", email: "ThomasSeleiro@fakeemail.com", password: "test4321")  
+      expect(response.status).to eq 200
+      expect(response.body).to include('<h2>Login to MakersBnB</h2>')
+      expect(response.body).to include('<form action="/sessions/new" method="POST">')
+      expect(response.body).to include('</form>')
+      expect(response.body).to include('<label>Email Address</label>')
+      expect(response.body).to include('<input type="email" name="email" maxlength="100" required>')
+      expect(response.body).to include('<label>Password</label>')
+      expect(response.body).to include('<input type="password" name="password" minlength="8" maxlength="8" required>')
+      expect(response.body).to include('<input type="submit" value="Login" class="button">')
+      expect(response.body).to include('<a href="/sessions/new">Login</a>')
+    end
+
+    it "returns an email error and redirects to login" do 
+      response = post("/", name: "Thomas Seleiro", email: "ThomasSeleiro@fakeemail.com", dob: "2000-12-01", password: "test1234", password_confirmation: "test1234")
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<h2>Sign up complete for Thomas Seleiro</h2>')
+      response = post("/sessions/new", email: "Seleiro@fakeemail.com", password: "test4321")  
       expect(response.status).to eq 200
       expect(response.body).to include('<h2>Login to MakersBnB</h2>')
       expect(response.body).to include('<form action="/sessions/new" method="POST">')
