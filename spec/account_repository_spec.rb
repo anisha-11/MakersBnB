@@ -72,6 +72,15 @@ RSpec.describe AccountRepository do
       expect(account.dob).to eq '1982-12-15'
     end
 
+    it "finds a specific account" do
+      repo = AccountRepository.new
+
+      account = repo.find(4)
+
+      expect(account.id).to eq 4
+      expect(account.name).to eq 'Valerio Franchi'
+    end 
+
     it 'Get a single account by id' do
       repo = AccountRepository.new
 

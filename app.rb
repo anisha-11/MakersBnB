@@ -132,6 +132,29 @@ class Application < Sinatra::Base
     return erb(:request_confirmation)
   end
 
+  get '/requests/:id' do
+    session[:user_id] = params[:id]
+    @user_id = params[:id]
+    account_repo = AccountRepository.new
+    @account = account_repo.find(session[:user_id])
+    @space_repo = SpaceRepository.new
+    spaces = @space_repo.all
+    my_spaces = spaces.select do |space|
+      space.account_id == @account.id
+    end
+    space_ids = my_spaces.map do |space|
+      space.id
+    end
+
+    booking_repo = BookingRepository.new
+    bookings = booking_repo.all
+
+    @my_requested_spaces = bookings.select do |booking|
+      space_ids.include?(booking.space_id)
+    end
+    return erb(:requests)
+  end 
+
   get '/requests/confirm/:id' do
       booking_repo = BookingRepository.new
       account_repo = AccountRepository.new
@@ -179,3 +202,6 @@ class Application < Sinatra::Base
   end
 
 end
+
+
+

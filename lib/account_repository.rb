@@ -18,6 +18,14 @@ class AccountRepository
     return accounts
   end
 
+  def find(id)
+    sql = 'SELECT id, name, email, password, dob FROM accounts WHERE id = $1;'
+    result_set = DatabaseConnection.exec_params(sql, [id])
+
+    record = result_set[0]
+    return record_to_account(record)
+  end
+
   def create(account)
     encrypted_password =  @encrypter.create(account.password)
     sql = 'INSERT INTO accounts (name, email, password, dob) VALUES ($1, $2, $3, $4);'
@@ -37,31 +45,6 @@ class AccountRepository
     return record_to_account(record)
     end
   end
-
-
-    def find(id)
-      sql = 'SELECT * FROM accounts WHERE id = $1;'
-      result_set = DatabaseConnection.exec_params(sql, [id])
-      if result_set.num_tuples.zero?
-        return false
-      else
-        record = result_set[0]
-      return record_to_account(record)
-      end
-    end
-
-  # def sign_in(email, submitted_password)
-  #   user = find_by_email(email)
-
-  #   return nil if user.nil?
-
-  #   # Compare the submitted password with the encrypted one saved in the database
-  #   if BCrypt::Password.new(user.password) == submitted_password
-  #     return 'login success'
-  #   else
-  #     return 'wrong password'
-  #   end
-  # end
 
   private
 

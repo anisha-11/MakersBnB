@@ -262,6 +262,24 @@ describe Application do
     end
   end
 
+  context "GET /requests" do
+    it "takes user to a requests page" do
+      response = post("/", name: "Thomas Seleiro", email: "ThomasSeleiro@fakeemail.com", dob: "2000-12-01", password: "test1234", password_confirmation: "test1234")
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<h2>Sign up complete for Thomas Seleiro</h2>')
+      response = post("/sessions/new", email: "ThomasSeleiro@fakeemail.com", password: "test1234")
+      response = get("/spaces/1")
+      response = post('spaces/request', date: '2023-12-01')
+      response = get('/requests/1')
+      expect(response.status).to eq 200
+      expect(response.body).to include 'My Requests'
+      expect(response.body).to include("<h2>Requests I've received</h2>")
+      expect(response.body).to include('<h3>House</h3>')
+      expect(response.body).to include('<h3>Pending</h3>')
+      expect(response.body).to include('<h3>2022-12-15</h3>')
+    end
+  end
+
 
   context "for GET /requests/confirm/:id" do
     it "returns info from request 1" do

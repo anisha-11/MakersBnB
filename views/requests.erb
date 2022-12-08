@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>MakersBnB</title>
+        <link rel="stylesheet" href="/style.css" >
+        <link rel="shortcut icon" href="#">
+    </head>
+    <body>
+        <h1>My Requests</h1>
+        <h2>Requests I've received</h2>
+        <% @my_requested_spaces.each do |space| %>
+          <div class='requests'> 
+          <a href="/requests/confirm/<%=@user_id%>"><h3><%=@space_repo.find(space.space_id).name%></h3>
+          <h3><%=space.status%></h3>
+          <h3><%=space.date%></h3>
+         </div> 
+         <% end %>
+     
+    </body>
+</html>
