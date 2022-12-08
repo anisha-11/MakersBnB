@@ -263,9 +263,9 @@ describe Application do
   end
 
 
-  context "for GET /requests/:id" do
+  context "for GET /requests/confirm/:id" do
     it "returns info from request 1" do
-      response = get("/requests/1")
+      response = get("/requests/confirm/1")
       expect(response.status).to eq 200
       expect(response.body).to include('<h2>House</h2>')
       expect(response.body).to include('Stunning two bedroom house with a garden')
@@ -280,13 +280,14 @@ describe Application do
 
   context "for POST /requests/confirm" do
    it "modify the status of the booking table to confirmed" do
-     response = get("/requests/1")
+     response = get("/requests/confirm/1")
      expect(response.status).to eq 200
 
      response = post('requests/confirm', status: 'Confirm Request')
      expect(response.status).to eq 200
-     # expect(response.body).to include 'Your booking has been requested'
-     # expect(response.body).to include '<a href="/spaces"> Back to listings</a>'
+     expect(response.body).to include 'The booking has been confirmed'
+     expect(response.body).to include '<a href="/spaces"> Back to listings</a>'
+
    end
   end
 end

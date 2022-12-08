@@ -132,7 +132,7 @@ class Application < Sinatra::Base
     return erb(:request_confirmation)
   end
 
-  get '/requests/:id' do
+  get '/requests/confirm/:id' do
       booking_repo = BookingRepository.new
       account_repo = AccountRepository.new
       space_repo = SpaceRepository.new
@@ -140,29 +140,31 @@ class Application < Sinatra::Base
       session[:booking_id] = params[:id]
       @booking = booking_repo.find(session[:booking_id])
 
-      account_id = @booking.account_id
-      @account = account_repo.find(account_id)
+      session[:account_id] = @booking.account_id
+      @account = account_repo.find(session[:account_id])
 
-      space_id = @booking.space_id
-      @space = space_repo.find(space_id)
+      session[:space_id] = @booking.space_id
+      @space = space_repo.find(session[:space_id])
 
       return erb(:confirm_request)
   end
 
   post '/requests/confirm' do
-    # repo = BookingRepository.new
-    # new_booking = Booking.new
-    #
-    # booking_status.status = params[:date]
-    #
-    #
-    # new_booking.space_id = session[:space_id]
-    # new_booking.status = "Pending"
-    # new_booking.account_id = session[:user_id]
-    #
-    # repo.create(new_booking)
-    #
-    # return erb(:request_confirmation)
+    repo = BookingRepository.new
+
+    booking = repo.find(session[:booking_id])
+    
+    status = params[:status]
+
+    if status == "Confirm Request"
+      booking.status = 'Confirmed'
+      @request_message = 'The booking has been confirmed'
+    end
+
+    repo.update(booking)
+
+    return erb(:booking_confirmation)
+
   end
 
   private
