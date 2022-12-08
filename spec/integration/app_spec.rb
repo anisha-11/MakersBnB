@@ -60,7 +60,7 @@ describe Application do
       response = post("/", name: "Thomas Seleiro", email: "ThomasSeleiro@fakeemail.com", dob: "2000-12-01", password: "test1234", password_confirmation: "test1234")
       expect(response.status).to eq(200)
       expect(response.body).to include('<h2>Sign up complete for Thomas Seleiro</h2>')
-      expect(response.body).to include('<a href="/spaces">View spaces</a>')
+      expect(response.body).to include('<a href="/sessions/new">Login to MakersBnB</a>')
     end
 
     it 'returns error message on signup page, when passwords do not match' do
@@ -71,7 +71,7 @@ describe Application do
       expect(response.body).to include('<p>Passwords do not match. Please re-submit.</p>')
     end
 
-    it 'returns error message on signup page, when email is duplicated' do 
+    it 'returns error message on signup page, when email is duplicated' do
       response = post("/", name: "Thomas Seleiro", email: "chrishutchinson@fakeemail.com", dob: "2000-12-01", password: "test1234", password_confirmation: "test1234")
       expect(response.status).to eq(200)
       expect(response.body).to include('<h1>Feel at home, anywhere</h1>')
@@ -80,8 +80,8 @@ describe Application do
     end
   end
 
-  context "GET '/sessions/new' " do 
-    it "get the login page" do 
+  context "GET '/sessions/new' " do
+    it "get the login page" do
       response = get('/sessions/new')
       expect(response.status).to eq 200
       expect(response.body).to include('<h2>Login to MakersBnB</h2>')
@@ -100,16 +100,16 @@ describe Application do
       response = post("/", name: "Thomas Seleiro", email: "ThomasSeleiro@fakeemail.com", dob: "2000-12-01", password: "test1234", password_confirmation: "test1234")
       expect(response.status).to eq(200)
       expect(response.body).to include('<h2>Sign up complete for Thomas Seleiro</h2>')
-      response = post("/sessions/new", email: "ThomasSeleiro@fakeemail.com", password: "test1234")  
+      response = post("/sessions/new", email: "ThomasSeleiro@fakeemail.com", password: "test1234")
       expect(response.status).to eq 302
     end
   end
 
-    it "returns a login error and redirects to login" do 
+    it "returns a login error and redirects to login" do
       response = post("/", name: "Thomas Seleiro", email: "ThomasSeleiro@fakeemail.com", dob: "2000-12-01", password: "test1234", password_confirmation: "test1234")
       expect(response.status).to eq(200)
       expect(response.body).to include('<h2>Sign up complete for Thomas Seleiro</h2>')
-      response = post("/sessions/new", email: "ThomasSeleiro@fakeemail.com", password: "test4321")  
+      response = post("/sessions/new", email: "ThomasSeleiro@fakeemail.com", password: "test4321")
       expect(response.status).to eq 200
       expect(response.body).to include('<h2>Login to MakersBnB</h2>')
       expect(response.body).to include('<form action="/sessions/new" method="POST">')
@@ -121,11 +121,11 @@ describe Application do
       expect(response.body).to include('<input type="submit" value="Login" class="button">')
     end
 
-    it "returns an email error and redirects to login" do 
+    it "returns an email error and redirects to login" do
       response = post("/", name: "Thomas Seleiro", email: "ThomasSeleiro@fakeemail.com", dob: "2000-12-01", password: "test1234", password_confirmation: "test1234")
       expect(response.status).to eq(200)
       expect(response.body).to include('<h2>Sign up complete for Thomas Seleiro</h2>')
-      response = post("/sessions/new", email: "Seleiro@fakeemail.com", password: "test4321")  
+      response = post("/sessions/new", email: "Seleiro@fakeemail.com", password: "test4321")
       expect(response.status).to eq 200
       expect(response.body).to include('<h2>Login to MakersBnB</h2>')
       expect(response.body).to include('<form action="/sessions/new" method="POST">')
@@ -143,10 +143,10 @@ describe Application do
 
       expect(response.status).to eq 200
       expect(response.body).to include '<h1>Book a Space</h1>'
-      expect(response.body).to include '<h2>House</h2>'
-      expect(response.body).to include '<h2>Flat</h2>'
-      expect(response.body).to include '<h2>Tree House</h2>'
-      expect(response.body).to include '<a href="/spaces/new"> List a space</a>'
+      expect(response.body).to include '<h2><a href="/spaces/1">House</a></h2>'
+      expect(response.body).to include '<h2><a href="/spaces/2">Flat</a></h2>'
+      expect(response.body).to include '<h2><a href="/spaces/3">Tree House</a></h2>'
+      expect(response.body).to include '<a href="/spaces/new">List a space</a>'
     end
 
     it "adds an ellipsis when the description is longer than 20 characters" do
@@ -188,9 +188,60 @@ describe Application do
       expect(response.body).to include '<a href="/spaces"> Back to listings</a>'
 
       response = get('/spaces')
-      expect(response.body).to include '<h2>Luxury spa</h2>'
+      expect(response.body).to include '<h2><a href="/spaces/5">Luxury spa</a></h2>'
     end
   end
+
+
+  context "for GET /spaces/:id" do
+     it "returns info from space 1" do
+       response = post("/", name: "Thomas Seleiro", email: "ThomasSeleiro@fakeemail.com", dob: "2000-12-01", password: "test1234", password_confirmation: "test1234")
+       expect(response.status).to eq(200)
+       expect(response.body).to include('<h2>Sign up complete for Thomas Seleiro</h2>')
+       response = post("/sessions/new", email: "ThomasSeleiro@fakeemail.com", password: "test1234")
+       expect(response.status).to eq 302
+       response = get("/spaces/1")
+       expect(response.body).to include('<h2>House</h2>')
+       expect(response.body).to include('Stunning two bedroom house with a garden')
+       expect(response.body).to include('$99.99')
+       expect(response.body).to include('<label>Pick a night</label>')
+       expect(response.body).to include('<input type="date" name="date" required>')
+       expect(response.body).to include('<input type="submit" value="Request to Book" class="button">')
+       expect(response.body).to include('<form action="/spaces/request" method="POST">')
+       expect(response.body).to include('</form>')
+
+     end
+     it "returns info from space 2" do
+       response = post("/", name: "Thomas Seleiro", email: "ThomasSeleiro@fakeemail.com", dob: "2000-12-01", password: "test1234", password_confirmation: "test1234")
+       expect(response.status).to eq(200)
+       expect(response.body).to include('<h2>Sign up complete for Thomas Seleiro</h2>')
+       response = post("/sessions/new", email: "ThomasSeleiro@fakeemail.com", password: "test1234")
+       expect(response.status).to eq 302
+       response = get("/spaces/2")
+       expect(response.body).to include('<h2>Flat</h2>')
+       expect(response.body).to include('Terrible one bedroom house with a balcony')
+       expect(response.body).to include('$2.99')
+       expect(response.body).to include('<label>Pick a night</label>')
+       expect(response.body).to include('<input type="date" name="date" required>')
+       expect(response.body).to include('<input type="submit" value="Request to Book" class="button">')
+       expect(response.body).to include('<form action="/spaces/request" method="POST">')
+       expect(response.body).to include('</form>')
+     end
+
+     it "returns back to the login page if not signed in" do
+       response = get("/spaces/2")
+       expect(response.status).to eq(302)
+     end
+   end
+
+   context "for POST /spaces/request" do
+    it "adding a booking requets for space 1" do
+      response = post('spaces/request', date: '2023-12-01')
+      expect(response.status).to eq 200
+      expect(response.body).to include 'Your booking has been requested'
+      expect(response.body).to include '<a href="/spaces"> Back to listings</a>'
+    end
+   end
 
   context "GET /logout" do
     it "takes you to a logout page" do
@@ -210,6 +261,5 @@ describe Application do
       expect(response.status).to eq 302
     end
   end
-
 
 end

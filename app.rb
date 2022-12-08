@@ -3,6 +3,7 @@ require 'sinatra/reloader'
 require_relative 'lib/space_repository'
 require_relative 'lib/database_connection'
 require_relative 'lib/account_repository'
+require_relative 'lib/booking_repository'
 
 if ENV['ENV'] == 'test'
   DatabaseConnection.connect("makersbnb_test")
@@ -45,14 +46,14 @@ class Application < Sinatra::Base
   post '/' do
 
     @password = params[:password_confirmation]
-    @password_confirmation = params[:password] 
+    @password_confirmation = params[:password]
     @name = params[:name]
     email = params[:email]
 
     if password_confirmation?
       @error_message = 'Passwords do not match. Please re-submit.'
       return erb(:index)
-    end 
+    end
 
     repo = AccountRepository.new
 
@@ -60,24 +61,24 @@ class Application < Sinatra::Base
       if account.email == email
         @error_message = 'Email already registered. Please re-submit or sign-in.'
         return erb(:index)
-      end 
-    end 
-    
+      end
+    end
+
     new_account = Account.new
-    
+
     new_account.email = email
     new_account.password = @password
-    new_account.name = @name 
+    new_account.name = @name
     new_account.dob = params[:dob]
 
     repo.create(new_account)
-
     return erb(:signup_confirmation)
+
   end
 
-  get '/sessions/new' do 
+  get '/sessions/new' do
     return erb(:login)
-  end 
+  end
 
   post '/sessions/new' do
     email = params[:email]
@@ -87,9 +88,9 @@ class Application < Sinatra::Base
       return erb(:login)
     else
       @user = AccountRepository.new.find_by_email(email)
-      if incorrect_password? 
+      if incorrect_password?
         @error_message = 'Incorrect password please retry'
-        return erb(:login)   
+        return erb(:login)
       else
         session[:user_id] = @user.id
         redirect '/spaces'
@@ -106,6 +107,31 @@ class Application < Sinatra::Base
     redirect '/'
   end
 
+  get '/spaces/:id' do
+    if session[:user_id] == nil
+      return redirect('/sessions/new')
+    else
+      repo = SpaceRepository.new
+      session[:space_id] = params[:id]
+      @space = repo.find(session[:space_id])
+      return erb(:new_request)
+    end
+ end
+
+  post '/spaces/request' do
+    repo = BookingRepository.new
+    new_booking = Booking.new
+
+    new_booking.date = params[:date]
+    new_booking.space_id = session[:space_id]
+    new_booking.status = "Pending"
+    new_booking.account_id = session[:user_id]
+
+    repo.create(new_booking)
+
+    return erb(:request_confirmation)
+  end
+
   private
 
   def password_confirmation?
@@ -114,6 +140,6 @@ class Application < Sinatra::Base
 
   def incorrect_password?
     return BCrypt::Password.new(@user.password) != @password
-  end 
+  end
 
 end
