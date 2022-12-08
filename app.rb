@@ -3,6 +3,7 @@ require 'sinatra/reloader'
 require_relative 'lib/space_repository'
 require_relative 'lib/database_connection'
 require_relative 'lib/account_repository'
+require_relative 'lib/booking_repository'
 
 if ENV['ENV'] == 'test'
   DatabaseConnection.connect("makersbnb_test")
@@ -99,10 +100,25 @@ class Application < Sinatra::Base
 
   get '/spaces/:id' do
     repo = SpaceRepository.new
-    id = params[:id]
-    @space = repo.find(id)
+    session[:space_id] = params[:id]
+    @space = repo.find(session[:space_id])
 
     return erb(:new_request)
+  end
+
+  post '/spaces/request' do
+    repo = BookingRepository.new
+    new_booking = Booking.new
+
+    new_booking.date = params[:date]
+    new_booking.space_id = session[:space_id]
+    new_booking.status = "Pending"
+    new_booking.account_id = session[:user_id]
+
+    repo.create(new_booking)
+
+    return erb(:request_confirmation)
+
   end
 
   private

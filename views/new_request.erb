@@ -8,7 +8,7 @@
         <h2><%= @space.name %></h2>
         <p><%= @space.description %></p>
         <p><%= @space.price %></p>
-        <form action="/requests/new" method="POST">
+        <form action="/spaces/request" method="POST">
             <div class='signup_form'>
             <label>Pick a night</label>
             <input type="date" name="date" required><br /><br />

@@ -197,7 +197,7 @@ describe Application do
        expect(response.body).to include('<label>Pick a night</label>')
        expect(response.body).to include('<input type="date" name="date" required>')
        expect(response.body).to include('<input type="submit" value="Request to Book" class="button">')
-       expect(response.body).to include('<form action="/requests/new" method="POST">')
+       expect(response.body).to include('<form action="/spaces/request" method="POST">')
        expect(response.body).to include('</form>')
 
      end
@@ -209,10 +209,17 @@ describe Application do
        expect(response.body).to include('<label>Pick a night</label>')
        expect(response.body).to include('<input type="date" name="date" required>')
        expect(response.body).to include('<input type="submit" value="Request to Book" class="button">')
-       expect(response.body).to include('<form action="/requests/new" method="POST">')
+       expect(response.body).to include('<form action="/spaces/request" method="POST">')
        expect(response.body).to include('</form>')
      end
    end
 
-
+   context "for POST /spaces/request" do
+    it "adding a booking requets for space 1" do
+      response = post('spaces/1', date: '2023-12-01')
+      expect(response.status).to eq 200
+      expect(response.body).to include 'Your booking has been requested'
+      expect(response.body).to include '<a href="/spaces"> Back to listings</a>'
+    end
+   end
 end
