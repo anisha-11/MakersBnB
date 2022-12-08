@@ -50,7 +50,8 @@ describe Application do
       expect(response.body).to include('<label>Password Confirmation</label>')
       expect(response.body).to include('<input type="password" name="password_confirmation" minlength="8" maxlength="8" required>')
       expect(response.body).to include('<input type="submit" value="Sign Up" class="button">')
-      expect(response.body).to include('<a href="/sessions/new">Login</a>')
+      expect(response.body).to include('<form action="/sessions/new" method="GET">')
+      expect(response.body).to include('<input type="submit" value="Login" class="button">')
     end
   end
 
@@ -91,7 +92,6 @@ describe Application do
       expect(response.body).to include('<label>Password</label>')
       expect(response.body).to include('<input type="password" name="password" minlength="8" maxlength="8" required>')
       expect(response.body).to include('<input type="submit" value="Login" class="button">')
-      expect(response.body).to include('<a href="/sessions/new">Login</a>')
     end
   end
 
@@ -119,7 +119,6 @@ describe Application do
       expect(response.body).to include('<label>Password</label>')
       expect(response.body).to include('<input type="password" name="password" minlength="8" maxlength="8" required>')
       expect(response.body).to include('<input type="submit" value="Login" class="button">')
-      expect(response.body).to include('<a href="/sessions/new">Login</a>')
     end
 
     it "returns an email error and redirects to login" do 
@@ -136,7 +135,6 @@ describe Application do
       expect(response.body).to include('<label>Password</label>')
       expect(response.body).to include('<input type="password" name="password" minlength="8" maxlength="8" required>')
       expect(response.body).to include('<input type="submit" value="Login" class="button">')
-      expect(response.body).to include('<a href="/sessions/new">Login</a>')
     end
 
   context 'GET /spaces' do
@@ -155,6 +153,13 @@ describe Application do
       response = get('/spaces')
       expect(response.status).to eq 200
       expect(response.body).to include 'Stunning two bedroom ...'
+    end
+
+    it "has a logout link" do
+      response = get('/spaces')
+      expect(response.status).to eq 200
+      expect(response.body).to include '<form action="/logout" method="GET">'
+      expect(response.body).to include '<input type="submit" value="Sign out" style="float: right;" class="button">'
     end
   end
 
@@ -186,5 +191,25 @@ describe Application do
       expect(response.body).to include '<h2>Luxury spa</h2>'
     end
   end
+
+  context "GET /logout" do
+    it "takes you to a logout page" do
+      response = get('/logout')
+      expect(response.status).to eq 200
+      expect(response.body).to include('<h2>Are you sure you want to logout?</h2>')
+      expect(response.body).to include('<form action="/logout" method="POST">')
+      expect(response.body).to include('<input type="submit" value="Logout" class="button_small">')
+      expect(response.body).to include('<form action="/spaces" method="GET">')
+      expect(response.body).to include('<input type="submit" value="Return" class="button_small">')
+    end
+  end
+
+  context "POST /logout" do
+    it "it logs user out" do
+      response = post('/logout')
+      expect(response.status).to eq 302
+    end
+  end
+
 
 end

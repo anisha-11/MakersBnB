@@ -6,7 +6,7 @@ body {
 }
 
 h1 {
-    color: #a60f0f;
+    color: #ff385c;
     font-family: 'Raleway', sans-serif;
     font-size: 55px;
     line-height: 76px;
@@ -63,7 +63,7 @@ h1 {
   }
 
   .button {
-    background-color: darkseagreen;
+    background-color: #e9647c;
     font-family: 'Raleway', sans-serif;
     border: none;
     color: white;
@@ -73,6 +73,51 @@ h1 {
     display: inline-block;
     font-size: 16px;
   }
+
+  .button_corner {
+    background-color: #e9647c;
+    line-height: 12px;
+    width: 120px;
+    font-size: 6pt;
+    font-family: tahoma;
+    margin-top: 10px;
+    margin-right: 100px;
+    position:absolute;
+    top:0;
+    right:0;
+}
+
+.logout_page {
+  margin: 10px auto;
+  padding: 10px 10px 10px 10px;
+  background-color: #FFFFFF;
+  overflow: auto;
+  width: 15%;
+  border-radius: 4px;
+  align-self: center;
+  color: #938E89;
+  text-align: center;
+  line-height: 24px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.button_small {
+    margin: 10px 10px 10px 10px;
+    padding: 10px 10px 10px 10px;
+    overflow: auto;
+    width: 75%;
+    border-radius: 1px;
+    align-self: center;
+    color: #ffffff;
+    background-color: #e9647c;;
+    text-align: center;
+    line-height: 24px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+}
 
   p {
     color: #444444;

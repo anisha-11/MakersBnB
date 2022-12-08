@@ -97,6 +97,15 @@ class Application < Sinatra::Base
     end
   end
 
+  get '/logout' do
+    return erb(:logout)
+  end
+
+  post '/logout' do
+    session[:user_id] = nil
+    redirect '/'
+  end
+
   private
 
   def password_confirmation?
