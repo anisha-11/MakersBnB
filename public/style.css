@@ -40,6 +40,22 @@ h1 {
     font-weight: 400;
   }
 
+  .button_form {
+    margin: 40px auto;
+    padding: 10px 30px 10px 30px;
+    background-color: #e9647c;
+    overflow: auto;
+    width: 50%;
+    border-radius: 4px;
+    align-self: center;
+    color: #938E89;
+    text-align: left;
+    line-height: 24px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+  }
+
   .links {
     margin: 10px auto;
     padding: 10px 30px 10px 30px;
@@ -78,11 +94,40 @@ h1 {
     background-color: #e9647c;
     line-height: 12px;
     width: 120px;
-    font-size: 6pt;
-    font-family: tahoma;
+    height: 20px;
+    font-size: 10px!important;
+    font-family: 'Raleway', sans-serif;
     margin-top: 10px;
     margin-right: 100px;
-    position:absolute;
+    position:fixed;
+    top:0;
+    right:0;
+}
+
+.button_2_corner {
+    background-color: #e9647c;
+    line-height: 12px;
+    width: 120px;
+    height: 30px;
+    font-size: 10px!important;
+    font-family: 'Raleway', sans-serif;
+    margin-top: 10px;
+    margin-right: 230px;
+    position:fixed;
+    top:0;
+    right:0;
+}
+
+.button_3_corner {
+    background-color: #e9647c;
+    line-height: 12px;
+    width: 120px;
+    height: 30px;
+    font-size: 10px!important;
+    font-family: 'Raleway', sans-serif;
+    margin-top: 10px;
+    margin-right: 360px;
+    position:fixed;
     top:0;
     right:0;
 }
@@ -139,16 +184,16 @@ h1 {
     color: #444444;
     line-height: 32px;
     font-family: 'Raleway', sans-serif;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 250;
     text-align: center;
   }
 
 
   a {
-    color: #214E34;
+    color: #ff385c;
     font-family: 'Raleway', sans-serif;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 900;
     text-align: center;
     letter-spacing: 2px;

@@ -60,7 +60,7 @@ describe Application do
       response = post("/", name: "Thomas Seleiro", email: "ThomasSeleiro@fakeemail.com", dob: "2000-12-01", password: "test1234", password_confirmation: "test1234")
       expect(response.status).to eq(200)
       expect(response.body).to include('<h2>Sign up complete for Thomas Seleiro</h2>')
-      expect(response.body).to include('<a href="/sessions/new">Login to MakersBnB</a>')
+      expect(response.body).to include('<input type="submit" value="Login" class="button">')
     end
 
     it 'returns error message on signup page, when passwords do not match' do
@@ -146,7 +146,7 @@ describe Application do
       expect(response.body).to include '<h2><a href="/spaces/1">House</a></h2>'
       expect(response.body).to include '<h2><a href="/spaces/2">Flat</a></h2>'
       expect(response.body).to include '<h2><a href="/spaces/3">Tree House</a></h2>'
-      expect(response.body).to include '<a href="/spaces/new">List a space</a>'
+      expect(response.body).to include '<input type="submit" value="List a space" class="button">'
     end
 
     it "adds an ellipsis when the description is longer than 20 characters" do
@@ -170,12 +170,11 @@ describe Application do
       response = get('/spaces/new')
 
       expect(response.status).to eq 200
-      expect(response.body).to include '<h1>List a Space</h1>'
-      expect(response.body).to include '<input type="submit" value="List my Space" />'
+      expect(response.body).to include '<h2>List a Space</h2>'
+      expect(response.body).to include '<input type="submit" value="List my Space" class="button">'
       expect(response.body).to include '<input type="text" name="price" required> <br/>'
       expect(response.body).to include '<input type="text" name="description" required> <br/>'
       expect(response.body).to include '<input type="text" name="name" required> <br/>'
-      expect(response.body).to include '<a href="/spaces"> Back to listings</a>'
     end
   end
 
@@ -185,7 +184,7 @@ describe Application do
 
       expect(response.status).to eq 200
       expect(response.body).to include 'Your space has been listed'
-      expect(response.body).to include '<a href="/spaces"> Back to listings</a>'
+      expect(response.body).to include '<input type="submit" value="Spaces" class="button">'
 
       response = get('/spaces')
       expect(response.body).to include '<h2><a href="/spaces/5">Luxury spa</a></h2>'
@@ -247,11 +246,11 @@ describe Application do
     it "takes you to a logout page" do
       response = get('/logout')
       expect(response.status).to eq 200
-      expect(response.body).to include('<h2>Are you sure you want to logout?</h2>')
+      expect(response.body).to include('<p>Are you sure you want to logout?</p>')
       expect(response.body).to include('<form action="/logout" method="POST">')
-      expect(response.body).to include('<input type="submit" value="Logout" class="button_small">')
+      expect(response.body).to include('<input type="submit" value="Logout" class="button">')
       expect(response.body).to include('<form action="/spaces" method="GET">')
-      expect(response.body).to include('<input type="submit" value="Return" class="button_small">')
+      expect(response.body).to include('<input type="submit" value="Return" class="button">')
     end
   end
 
@@ -273,9 +272,9 @@ describe Application do
       response = get('/requests/1')
       expect(response.status).to eq 200
       expect(response.body).to include 'Requests I have received'
-      expect(response.body).to include('<h3>House</h3>')
-      expect(response.body).to include('<h3>Pending</h3>')
-      expect(response.body).to include('<h3>2022-12-15</h3>')
+      expect(response.body).to include('<h2><a href="/requests/confirm/1">House</h2>')
+      expect(response.body).to include('<p>Pending</p>')
+      expect(response.body).to include('<p>2022-12-15</p>')
     end
   end
 
@@ -292,12 +291,12 @@ describe Application do
       response = get('/myrequests/5')
       expect(response.status).to eq 200
       expect(response.body).to include 'Requests I have made'
-      expect(response.body).to include('<h3>House</h3>')
-      expect(response.body).to include('<h3>Pending</h3>')
-      expect(response.body).to include('<h3>2023-12-01</h3>')
-      expect(response.body).to include('<h3>Flat</h3>')
-      expect(response.body).to include('<h3>Pending</h3>')
-      expect(response.body).to include('<h3>2023-01-01</h3>')
+      expect(response.body).to include('<h2>House</h2>')
+      expect(response.body).to include('<p>Pending</p>')
+      expect(response.body).to include('<p>2023-12-01</p>')
+      expect(response.body).to include('<h2>Flat</h2>')
+      expect(response.body).to include('<p>Pending</p>')
+      expect(response.body).to include('<p>2023-01-01</p>')
     end
   end
 

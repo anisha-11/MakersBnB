@@ -7,12 +7,18 @@
     </head>
     <body>
         <h1>Requests I have made</h1>
+
         <% @my_requested_spaces.each do |space| %>
-          <div class='requests'> 
-          <h3><%=@space_repo.find(space.space_id).name%></h3>
-          <h3><%=space.status%></h3>
-          <h3><%=space.date%></h3>
+          <div class='signup_form'> 
+          <h2><%=@space_repo.find(space.space_id).name%></h2>
+          <p><%=space.status%></p>
+          <p><%=space.date%></p>
          </div> 
          <% end %>
     </body>
+    <div class='button_corner'>
+        <form action="/spaces" method="GET">
+          <input type="submit" value="Spaces" class="button">
+        </form>
+    </div>
 </html>
