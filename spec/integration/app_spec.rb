@@ -170,12 +170,12 @@ describe Application do
       response = get('/spaces/new')
 
       expect(response.status).to eq 200
-      expect(response.body).to include '<h1>List a Space</h1>'
-      expect(response.body).to include '<input type="submit" value="List my Space" />'
+      expect(response.body).to include '<title>List a Space</title>'
+      expect(response.body).to include '<input type="submit" value="List my Space" class="button">'
       expect(response.body).to include '<input type="text" name="price" required> <br/>'
       expect(response.body).to include '<input type="text" name="description" required> <br/>'
       expect(response.body).to include '<input type="text" name="name" required> <br/>'
-      expect(response.body).to include '<a href="/spaces"> Back to listings</a>'
+      expect(response.body).to include '<a href="/spaces"> Spaces</a>'
     end
   end
 
@@ -239,7 +239,7 @@ describe Application do
       response = post('spaces/request', date: '2023-12-01')
       expect(response.status).to eq 200
       expect(response.body).to include 'Your booking has been requested'
-      expect(response.body).to include '<a href="/spaces"> Back to listings</a>'
+      expect(response.body).to include '<form action="/spaces" method="GET">'
     end
    end
 

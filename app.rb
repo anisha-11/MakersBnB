@@ -130,6 +130,8 @@ class Application < Sinatra::Base
     repo.create(new_booking)
 
     return erb(:request_confirmation)
+    
+    redirect '/spaces'
   end
 
   get '/requests/:id' do
