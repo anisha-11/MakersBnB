@@ -9,7 +9,7 @@
         <h1>Requests I have received</h1>
         <% @my_requested_spaces.each do |space| %>
           <div class='signup_form'> 
-          <h2><a href="/requests/confirm/<%=space.booking_id%>"><%=@space_repo.find(space.space_id).name%></h2>
+          <h2><a href="/requests/confirm/<%=space.id%>"><%=@space_repo.find(space.space_id).name%></h2>
           <p><%=space.status%></p>
           <p><%=space.date%></p>
          </div> 
