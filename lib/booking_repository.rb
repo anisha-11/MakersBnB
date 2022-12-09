@@ -41,7 +41,6 @@ class BookingRepository
 
   end
 
-
   private
 
   def record_to_booking(record)
