@@ -135,6 +135,21 @@ h1 {
   font-weight: 400;
 }
 
+.spaces_button {
+  margin: 0px auto;
+  padding: 10px 30px 10px 30px;
+  overflow: auto;
+  width: 15%;
+  border-radius: 4px;
+  align-self: center;
+  color: #938E89;
+  text-align: center;
+  line-height: 24px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+}
+
   p {
     color: #444444;
     line-height: 32px;
