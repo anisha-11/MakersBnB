@@ -238,7 +238,7 @@ describe Application do
       response = post('spaces/request', date: '2023-12-01')
       expect(response.status).to eq 200
       expect(response.body).to include 'Your booking has been requested'
-      expect(response.body).to include '<a href="/spaces"> Back to listings</a>'
+      expect(response.body).to include '<form action="/spaces" method="GET">'
     end
    end
 
