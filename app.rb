@@ -24,9 +24,11 @@ class Application < Sinatra::Base
   end
 
   get '/spaces' do
+    @user_id = session[:user_id]
     repo = SpaceRepository.new
     @spaces = repo.all
     return erb(:spaces)
+
   end
 
   get '/spaces/new' do
@@ -39,6 +41,7 @@ class Application < Sinatra::Base
     new_space.name = params[:name]
     new_space.description = params[:description]
     new_space.price = params[:price]
+    new_space.account_id = session[:user_id]
     repo.create(new_space)
     return erb(:listed_space)
   end

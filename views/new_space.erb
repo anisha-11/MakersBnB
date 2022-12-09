@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>List a Space</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <h2>List a Space</h2>
-    <p>Please fill in the following details:</p>
-    <form action="/spaces/new" method="POST">
-      <div class='signup_form'>
-          <label> Name </label>
-          <input type="text" name="name" required> <br/>
-          <label> Description </label>
-          <input type="text" name="description" required> <br/>
-          <label> Price per Night($)  </label>
-          <input type="text" name="price" required> <br/>
-          <input type="submit" value="List my Space" class="button">
-        </div>
+    <head>
+        <title>List a Space</title>
+        <link rel="stylesheet" href="/style.css" >
+    </head>
+    <body>
+        <h2>List a Space</h2>
+        <form action="/spaces/new" method="POST">
+            <div class='signup_form'>
+              <label> Name </label>
+              <input type="text" name="name" required> <br/>
+              <label> Description </label>
+              <input type="text" name="description" required> <br/>
+              <label> Price per Night($)  </label>
+              <input type="text" name="price" required> <br/><br/>
+              <input type="submit" value="List my Space" class="button">
+            </div>
         </form>
-      <a href="/spaces"> Spaces</a>
-  </body>
-
-
+        <div class='button_2_corner'>
+            <form action="/spaces" method="GET">
+              <input type="submit" value="Spaces" class="button">
+            </form>
+        </div><br/><br/>
+        <div class='button_corner'>
+          <form action="/logout" method="GET">
+            <input type="submit" value="Sign out" class="button">
+          </form>
+        </div>
+    </body>
 </html>

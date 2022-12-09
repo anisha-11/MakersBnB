@@ -9,21 +9,36 @@
   <body>
     <h1>Book a Space</h1>
     <p>Book a space in one of our beautiful residences! You don't want to miss out</p>
-    <h2> <a href="/spaces/new">List a space</a> </h2>
-    <main class="content-width">
+    <form action="/spaces/new" method="GET">
+        <div class='button_form'>
+          <input type="submit" value="List a space" class="button">
+        </div>
+     </form>
     <%@spaces.each do |space|%>
-      <h2><a href="/spaces/<%=space.id %>"><%=space.name %></a></h2>
+      <div class='signup_form'>
+        <h2><a href="/spaces/<%=space.id %>"><%=space.name %></a></h2>
+        <p><% description = space.description %>
+        <% if description.length > 20 %>
+          <%=description[0..20] + "..." %>
+        <% else %>
+          <%=description %>
+        <% end %>
+        <%=space.price %>
+        </p>
+        </div>
+        <%end%>
 
+    <div class='button_3_corner'>
+      <form action="/requests/<%=@user_id%>" method="GET">
+        <input type="submit" value="Bookings" class="button">
+      </form>
+    </div>
 
-      <% description = space.description %>
-      <% if description.length > 20 %>
-        <%=description[0..20] + "..." %>
-      <% else %>
-        <%=description %>
-      <% end %>
-      <%=space.price %>
-    <%end%>
-    </main>
+    <div class='button_2_corner'>
+        <form action="/myrequests/<%=@user_id%>" method="GET">
+          <input type="submit" value="Requests" class="button">
+        </form>
+    </div>
     <div class='button_corner'>
       <form action="/logout" method="GET">
         <input type="submit" value="Sign out" style="float: right;" class="button">
