@@ -172,13 +172,6 @@ class Application < Sinatra::Base
       booking.account_id == @user_id.to_i
     end
 
-    # my_spaces = spaces.select do |space|
-    #   space.account_id == @account.id
-    # end
-
-    # space_ids = my_spaces.map do |space|
-    #   space.id
-    # end
     return erb(:myrequests)
   end 
 
