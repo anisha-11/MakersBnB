@@ -188,11 +188,11 @@ class Application < Sinatra::Base
       session[:booking_id] = params[:id]
       @booking = booking_repo.find(session[:booking_id])
 
-      session[:account_id] = @booking.account_id
-      @account = account_repo.find(session[:account_id])
+      @booking.account_id
+      @account = account_repo.find(@booking.account_id)
 
-      session[:space_id] = @booking.space_id
-      @space = space_repo.find(session[:space_id])
+      @booking.space_id
+      @space = space_repo.find(@booking.space_id)
 
       return erb(:confirm_request)
   end
